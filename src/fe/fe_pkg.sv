@@ -1,9 +1,9 @@
 // fe_pkg.sv
 // Front-End (FE) miscelaneous definitions for RISC-V implementation
 
-`include "RV32I_defines.sv"
+`include "RV32I_defines.v"
 
-package fe_pkg
+package fe_pkg;
 
     typedef enum logic[`RV32I_OPCODE_WIDTH-1:0] {
         R_TYPE      = `RV32I_OPCODE_WIDTH'b0110011,
@@ -44,7 +44,7 @@ package fe_pkg
     typedef reg [`RV32I_RD_ADDR_WIDTH-1:0]  RV32I_RD_t;
     typedef reg [`RV32I_IMM_WIDTH-1:0]      RV32I_IMM_t;
 
-    typedef enum {
+/*     typedef enum {
         ADD, SUB, XOR, OR, AND, SLL, SRL, SRA, SLT, SLTU
     } RV32I_R_TYPE_INSTRUCTION_t;
 
@@ -67,6 +67,6 @@ package fe_pkg
 
     typedef enum {
         LUI, AUIPC
-    } RV32I_U_TYPE_INSTRUCTION_t;
+    } RV32I_U_TYPE_INSTRUCTION_t; */
 
 endpackage
