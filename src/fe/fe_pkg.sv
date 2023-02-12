@@ -1,7 +1,7 @@
 // fe_pkg.sv
 // Front-End (FE) miscelaneous definitions for RISC-V implementation
 
-`include "RV_defines.sv"
+`include "RV32I_defines.sv"
 
 package fe_pkg
 

@@ -1,4 +1,4 @@
-`include "RV_defines.sv"
+`include "RV32I_defines.sv"
 
 import fe_pkg::*;
 
@@ -83,7 +83,7 @@ always @(raw_bits)
             rd  => '0
             imm => '0;
         end
-        
+
     endcase
     
 endmodule : RV32I_decoder
