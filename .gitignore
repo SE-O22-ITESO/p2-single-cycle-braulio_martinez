@@ -4,3 +4,7 @@ quartus_project/output_files
 quartus_project/simulation
 *.bak
 *model_dump.txt
+questa_project/work
+*.mti
+questa_project/transcript
+*.rpt
