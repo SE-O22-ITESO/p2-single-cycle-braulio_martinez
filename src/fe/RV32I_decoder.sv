@@ -3,6 +3,8 @@
 import fe_pkg::*;
 
 module RV32I_decoder (
+    input clk,
+    input rst,
     input wire [`RV32I_INSTRUCTION_WIDTH-1:0] raw_bits,
 
     output RV32I_INSTRUCTION_MNEMONIC_t  mnemonic,
@@ -32,7 +34,7 @@ assign funct7 = (opcode == R_TYPE) ?
                 raw_bits[11:5]  : '0;
 
 // RS1/RS2/RD/IMM require no 'processing' besides picking bits
-always @(raw_bits, opcode)
+always @ *
     case (opcode)
 
         R_TYPE: begin
@@ -85,5 +87,32 @@ always @(raw_bits, opcode)
         end
 
     endcase
-    
+
+// Mnemonic
+always @*
+    case (opcode)
+
+        I_TYPE: begin
+            case (funct3)
+                'h0: mnemonic <= ADDI;
+                'h4: mnemonic <= XORI;
+                'h6: mnemonic <= ORI;
+                'h7: mnemonic <= ANDI;
+                'h1: mnemonic <= SLLI;
+                'h5: mnemonic <= (funct7 == `RV32I_FUNCT_7_WIDTH'h0) ?
+                                 SRLI :
+                                 (funct7 == `RV32I_FUNCT_7_WIDTH'h20) ?
+                                 SRAI :
+                                 NULL;
+                'h2: mnemonic <= SLTI;
+                'h3: mnemonic <= SLTIU;
+                default : mnemonic <= NULL;
+            endcase
+        end
+
+        default:
+            mnemonic = NULL;
+
+    endcase
+
 endmodule : RV32I_decoder
