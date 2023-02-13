@@ -99,6 +99,7 @@ always @*
                 'h6: mnemonic <= ORI;
                 'h7: mnemonic <= ANDI;
                 'h1: mnemonic <= SLLI;
+                //FIXME: Might optimize by just checking 1 bit
                 'h5: mnemonic <= (funct7 == `RV32I_FUNCT_7_WIDTH'h0) ?
                                  SRLI :
                                  (funct7 == `RV32I_FUNCT_7_WIDTH'h20) ?
