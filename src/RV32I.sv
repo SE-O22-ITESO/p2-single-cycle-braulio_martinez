@@ -2,6 +2,8 @@
 import fe_pkg::*;
 
 module RV32I (
+    input wire clk,
+    input wire rst,
     input wire [`RV32I_INSTRUCTION_WIDTH-1:0] raw_bits,
 
     output RV32I_OPCODE_t opcode,
