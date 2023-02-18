@@ -69,6 +69,8 @@ set_global_assignment -name EDA_TEST_BENCH_FILE ../src/fe/fe_pkg.sv -section_id 
 set_global_assignment -name EDA_TEST_BENCH_FILE ../src/fe/RV32I_decoder.sv -section_id RV32I_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../src/RV32I.sv -section_id RV32I_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../src/val/RV32I_tb.sv -section_id RV32I_tb
+set_global_assignment -name VERILOG_FILE ../src/common/full_adder.v
+set_global_assignment -name VERILOG_FILE ../src/common/adder_nbits.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../src/common/RV32I_defines.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/fe_pkg.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../src/be/be_pkg.sv
