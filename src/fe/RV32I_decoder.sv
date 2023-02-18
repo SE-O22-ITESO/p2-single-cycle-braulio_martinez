@@ -3,8 +3,6 @@
 import fe_pkg::*;
 
 module RV32I_decoder (
-    input wire clk,
-    input wire rst,
     input RV32I_OPERAND_t raw_bits,
 
     output RV32I_RS1_t  rs1_addr,
