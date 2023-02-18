@@ -11,7 +11,15 @@
 `define FF_D_RST_EN(clk, rst, en, d, q)\
     always @(posedge clk, posedge rst) begin \
         if (rst) \
-            q <= 'd0;\
+            q <= '0;\
+        else if (en)\
+            q <= d;\
+		end
+
+`define FF_D_RST_EN_DATA_TYPE(clk, rst, en, d, q, data_type)\
+    always @(posedge clk, posedge rst) begin \
+        if (rst) \
+            q <= data_type'(0);\
         else if (en)\
             q <= d;\
 		end
