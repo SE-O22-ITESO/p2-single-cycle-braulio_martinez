@@ -1,7 +1,7 @@
 // fe_pkg.sv
 // Front-End (FE) miscelaneous definitions for RISC-V implementation
 
-`include "RV32I_defines.v"
+`include "RV32I_defines.sv"
 
 package fe_pkg;
 
@@ -44,29 +44,9 @@ package fe_pkg;
     typedef reg [`RV32I_RD_ADDR_WIDTH-1:0]  RV32I_RD_t;
     typedef reg [`RV32I_IMM_WIDTH-1:0]      RV32I_IMM_t;
 
-/*     typedef enum {
-        ADD, SUB, XOR, OR, AND, SLL, SRL, SRA, SLT, SLTU
-    } RV32I_R_TYPE_INSTRUCTION_t;
-
+    //State Machine for control
     typedef enum {
-        ADDI, XORI, ORI, ANDI, SLLI, SRLI, SRAI, SLTI,
-        SLTIU, LB, LH, LW, LBU, LHU, JALR, ECALL, EBREAK
-    } RV32I_I_TYPE_INSTRUCTION_t;
-
-    typedef enum {
-        SB, SH, SW
-    } RV32I_S_TYPE_INSTRUCTION_t;
-
-    typedef enum {
-        BEQ, BNE, BLT, BGE, BLTU, BGEU
-    } RV32I_B_TYPE_INSTRUCTION_t;
-
-    typedef enum {
-        JAL
-    } RV32I_J_TYPE_INSTRUCTION_t;
-
-    typedef enum {
-        LUI, AUIPC
-    } RV32I_U_TYPE_INSTRUCTION_t; */
+        FETCH_S1, DECODE_S2, EXECUTE_S3, WRITEBACK_S4
+    } RV32I_CONTROL_UNIT_FSM_t;
 
 endpackage
