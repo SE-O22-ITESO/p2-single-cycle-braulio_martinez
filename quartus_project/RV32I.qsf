@@ -69,9 +69,14 @@ set_global_assignment -name EDA_TEST_BENCH_FILE ../src/fe/fe_pkg.sv -section_id 
 set_global_assignment -name EDA_TEST_BENCH_FILE ../src/fe/RV32I_decoder.sv -section_id RV32I_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../src/RV32I.sv -section_id RV32I_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ../src/val/RV32I_tb.sv -section_id RV32I_tb
-set_global_assignment -name VERILOG_FILE ../src/common/RV32I_defines.v
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/common/RV32I_defines.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/fe_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/be/be_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/common/RV32I_register_file.sv
+set_global_assignment -name VERILOG_FILE ../src/common/adder_substracter.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/RV32I_decoder.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/be/RV32I_alu.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/control_unit.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../src/RV32I_core.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../src/RV32I.sv
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
