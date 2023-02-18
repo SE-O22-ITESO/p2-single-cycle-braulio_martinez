@@ -1,21 +1,21 @@
-`include "RV32I_defines.v"
+`include "RV32I_defines.sv"
 import fe_pkg::*;
 
 module RV32I (
     input wire clk,
     input wire rst,
-    input wire [`RV32I_INSTRUCTION_WIDTH-1:0] raw_bits,
+    input RV32I_OPERAND_t instruction,
 
     output RV32I_OPCODE_t opcode,
-    output RV32I_RS1_t rs1
+    output RV32I_OPERAND_t rs1
 );
 
 RV32I_core core(
     .clk(clk),
     .rst(rst),
-    .raw_bits(raw_bits),
-    .opcode(opcode),
-    .rs1(rs1)
+    .instruction(instruction),
+    .opcode_out_debug(opcode),
+    .rs1_out_debug(rs1)
 );
     
 endmodule : RV32I
