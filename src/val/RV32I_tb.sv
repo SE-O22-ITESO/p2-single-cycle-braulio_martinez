@@ -20,7 +20,11 @@ module RV32I_tb ();
 
         for (int i = 0; i < TOTAL_INSTRUCTIONS; i++) begin
             raw_bits = program_mem[i];
-            #1 $display("OPCODE: %s, INSTR: %s", dut.decoder.opcode.name(), dut.decoder.mnemonic.name());
+            #1;
+            $display("OPCODE: %s, INSTR: %s RS1: %x, RS2: %x, RD: %x, IMM: %x , $signed(IMM): %d",
+                dut.core.decoder.opcode.name(), dut.core.decoder.mnemonic.name(),
+                dut.core.decoder.rs1, dut.core.decoder.rs2, dut.core.decoder.rd, dut.core.decoder.imm, $signed(dut.core.decoder.imm)
+            );
         end
         $stop();
     end
