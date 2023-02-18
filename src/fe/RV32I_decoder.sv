@@ -21,20 +21,24 @@ RV32I_FUNCT_7_t funct7;
 // Assigments
 assign opcode = RV32I_OPCODE_t'(raw_bits[`RV32I_OPCODE_WIDTH-1:0]);
 // FIXME: Might be easier to simply pass 14:12 to save some logic
-assign funct3 = (opcode == R_TYPE) ||
-                (opcode == I_TYPE) ||
-                (opcode == S_TYPE) || 
-                (opcode == B_TYPE) ?
+assign funct3 = (opcode == R_TYPE)      ||
+                (opcode == I_TYPE)      ||
+                (opcode == I_LOAD_TYPE) ||
+                (opcode == I_JALR_TYPE) ||
+                (opcode == I_ENV_TYPE)  ||
+                (opcode == S_TYPE)      || 
+                (opcode == B_TYPE)      ?
                 raw_bits[14:12] : '0;
 
-assign funct7 = (opcode == R_TYPE) ?
-                raw_bits[31:25] :
-                (opcode == I_TYPE) ?
-                //FIXME: [5:11] or [11:5]?
-                raw_bits[11:5]  : '0;
+assign funct7 = (opcode == R_TYPE)      ?
+                raw_bits[31:25]         :
+                (opcode == I_TYPE)      ?
+                raw_bits[31:25]         :
+                (opcode == I_ENV_TYPE)  ?
+                { {(`RV32I_FUNCT_7_WIDTH-1){1'b0}}, raw_bits[7]} : '0;
 
 // RS1/RS2/RD/IMM require no 'processing' besides picking bits
-always @ *
+always_comb
     case (opcode)
 
         R_TYPE: begin
@@ -59,10 +63,10 @@ always @ *
         end
         
         B_TYPE: begin
-            rs1 <= raw_bits[24:20];
-            rs2 <= raw_bits[19:15];
+            rs1 <= raw_bits[19:15];
+            rs2 <= raw_bits[24:20];
             rd  <= '0;
-            imm <= { {20{raw_bits[31]}}, raw_bits[31], raw_bits[7], raw_bits[30:25], raw_bits[11:6], 1'b0 };
+            imm <= { {20{raw_bits[31]}}, raw_bits[31], raw_bits[7], raw_bits[30:25], raw_bits[11:8], 1'b0 }; 
         end
 
         U_LUI_TYPE, U_AUI_TYPE: begin
@@ -89,7 +93,7 @@ always @ *
     endcase
 
 // Mnemonic
-always @*
+always_comb
     case (opcode)
 
         R_TYPE:
