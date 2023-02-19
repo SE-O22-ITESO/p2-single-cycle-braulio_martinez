@@ -7,11 +7,20 @@
 `define RV32I_RD_ADDR_WIDTH       5
 `define RV32I_IMM_WIDTH           32
 `define RV32I_NUM_OF_REGS         32
+`define RV32I_PC_STEP             32'd4
 
 `define FF_D_RST_EN(clk, rst, en, d, q)\
     always @(posedge clk, posedge rst) begin \
         if (rst) \
             q <= '0;\
+        else if (en)\
+            q <= d;\
+		end
+
+`define FF_D_RST_EN_RESET_VALUE(clk, rst, en, d, q, reset_value)\
+    always @(posedge clk, posedge rst) begin \
+        if (rst) \
+            q <= reset_value;\
         else if (en)\
             q <= d;\
 		end
@@ -23,5 +32,6 @@
         else if (en)\
             q <= d;\
 		end
+
 
 typedef logic [`RV32I_INSTRUCTION_WIDTH-1:0] RV32I_OPERAND_t;
