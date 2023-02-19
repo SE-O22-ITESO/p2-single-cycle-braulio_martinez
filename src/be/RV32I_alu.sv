@@ -12,9 +12,9 @@ module RV32I_alu (
 );
 
 wire adder_substracter_mode =   alu_op == ADD_alu ?
-                                '1 : '0;
+                                '0 : '1;
 
-adder_substracter # (
+adder_substracter_bmod # (
     .NUMBER_OF_BITS(`RV32I_INSTRUCTION_WIDTH)
 ) adder_substracter (
     .a(a),
