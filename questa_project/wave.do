@@ -3,16 +3,21 @@ quietly WaveActivateNextPane {} 0
 add wave -noupdate /RV32I_tb/dut/clk
 add wave -noupdate /RV32I_tb/dut/rst
 add wave -noupdate /RV32I_tb/dut/core/program_counter
-add wave -noupdate /RV32I_tb/dut/core/raw_bits
-add wave -noupdate /RV32I_tb/dut/core/raw_bits_fetched
+add wave -noupdate /RV32I_tb/dut/core/control_unit/program_counter_new
+add wave -noupdate /RV32I_tb/dut/core/control_unit/program_counter_plus_4
 add wave -noupdate /RV32I_tb/dut/core/mnemonic
 add wave -noupdate /RV32I_tb/dut/core/control_unit_state
-add wave -noupdate /RV32I_tb/dut/core/control_unit/control_unit_state
-add wave -noupdate /RV32I_tb/dut/core/control_unit/control_unit_state_next
+add wave -noupdate /RV32I_tb/dut/core/control_unit/alu_op
+add wave -noupdate /RV32I_tb/dut/core/control_unit/alu_a
+add wave -noupdate /RV32I_tb/dut/core/control_unit/alu_b
+add wave -noupdate /RV32I_tb/dut/core/control_unit/alu_exec_a
+add wave -noupdate /RV32I_tb/dut/core/control_unit/alu_exec_b
+add wave -noupdate /RV32I_tb/dut/core/alu/out
+add wave -noupdate /RV32I_tb/dut/core/imm
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {15 ns} 0}
+WaveRestoreCursors {{Cursor 1} {17 ns} 0}
 quietly wave cursor active 1
-configure wave -namecolwidth 393
+configure wave -namecolwidth 348
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
@@ -26,4 +31,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {0 ns} {52 ns}
+WaveRestoreZoom {0 ns} {25 ns}
