@@ -20,7 +20,7 @@ module RV32I_tb ();
     RV32I dut (
         .clk(clk),
         .rst(rst),
-        .instruction(program_mem[dut.core.program_counter]),
+        .instruction(program_mem[(dut.core.program_counter - 32'h4000000) >> 2]),
         .program_counter(program_counter)
     );
 
