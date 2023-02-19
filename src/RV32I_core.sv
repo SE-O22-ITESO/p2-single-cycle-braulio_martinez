@@ -13,6 +13,7 @@ module RV32I_core (
 );
 
 RV32I_OPERAND_t     rs1, rs2, rd, raw_bits_fetched, imm, alu_a, alu_b, alu_out;
+RV32I_OPERAND_t     program_counter_new;
 RV32I_OPCODE_t      opcode;
 RV32I_RS1_t         rs1_addr;
 RV32I_RS2_t         rs2_addr;
@@ -23,8 +24,8 @@ RV32I_INSTRUCTION_MNEMONIC_t mnemonic;
 
 // Fetch raw_bits
 `FF_D_RST_EN(clk, rst, (control_unit_state == FETCH_S1), raw_bits, raw_bits_fetched)
-// Program counter
-`FF_D_RST_EN(clk, rst, (control_unit_state == INCREASE_PC_S5), alu_out, program_counter)
+// Write new program counter
+`FF_D_RST_EN_RESET_VALUE(clk, rst, (control_unit_state == EXECUTE_S3), program_counter_new, program_counter, `RV32I_INSTRUCTION_WIDTH'h4000000)
 
 assign opcode_out_debug = RV32I_OPCODE_t'(rs1 ^ 7'b1100110);
 assign rs1_out_debug = rs1;
@@ -50,6 +51,7 @@ control_unit  control_unit  (
     .mnemonic   (mnemonic),
     .alu_out    (alu_out),
     .program_counter (program_counter),
+    .program_counter_new (program_counter_new),
 
     .alu_op     (alu_op),
     .alu_a      (alu_a),
