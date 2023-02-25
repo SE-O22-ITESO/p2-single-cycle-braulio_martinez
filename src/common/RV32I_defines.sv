@@ -33,5 +33,13 @@
             q <= d;\
 		end
 
+`define MUX_2_TO_1(a, b, sel_a, out)\
+    always_comb begin \
+        if (sel_a) \
+            out <= a;\
+        else \
+            out <= b;\
+		end
+
 
 typedef logic [`RV32I_INSTRUCTION_WIDTH-1:0] RV32I_OPERAND_t;
