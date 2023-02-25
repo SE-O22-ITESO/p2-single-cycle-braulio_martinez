@@ -13,15 +13,15 @@ module RV32I_tb ();
     bit rst = '1;
     int i = 0;
 
-    wire [`RV32I_INSTRUCTION_WIDTH-1:0] program_counter;
+    wire [`RV32I_INSTRUCTION_WIDTH-1:0] program_counter_s1;
 
     initial forever #1 clk = ~clk;
 
-    RV32I dut (
+    RV32I_core dut (
         .clk(clk),
         .rst(rst),
-        .instruction(program_mem[(dut.core.program_counter - 32'h4000000) >> 2]),
-        .program_counter(program_counter)
+        .raw_bits(program_mem[(dut.program_counter_s1 - 32'h4000000) >> 2]),
+        .program_counter_s1(program_counter_s1)
     );
 
     initial begin
@@ -29,11 +29,11 @@ module RV32I_tb ();
 
         #4 rst = '0;
 
-        while (dut.core.program_counter < TOTAL_INSTRUCTIONS) begin
+        while (dut.program_counter_s1 < TOTAL_INSTRUCTIONS) begin
             @(posedge clk);
             $display("OPCODE: %s, INSTR: %s RS1: %x, RS2: %x, RD: %x, IMM: %x , $signed(IMM): %d",
-                dut.core.decoder.opcode.name(), dut.core.decoder.mnemonic.name(),
-                dut.core.decoder.rs1_addr, dut.core.decoder.rs2_addr, dut.core.decoder.rd_addr, dut.core.decoder.imm, $signed(dut.core.decoder.imm)
+                dut.decoder.opcode.name(), dut.decoder.mnemonic.name(),
+                dut.decoder.rs1_addr, dut.decoder.rs2_addr, dut.decoder.rd_addr, dut.decoder.imm, $signed(dut.decoder.imm)
             );
         end
         $stop();
