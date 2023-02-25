@@ -2,18 +2,18 @@ onerror {resume}
 quietly WaveActivateNextPane {} 0
 add wave -noupdate /RV32I_tb/dut/clk
 add wave -noupdate /RV32I_tb/dut/rst
-add wave -noupdate /RV32I_tb/dut/core/program_counter
-add wave -noupdate /RV32I_tb/dut/core/control_unit/program_counter_new
-add wave -noupdate /RV32I_tb/dut/core/control_unit/program_counter_plus_4
-add wave -noupdate /RV32I_tb/dut/core/mnemonic
-add wave -noupdate /RV32I_tb/dut/core/control_unit_state
-add wave -noupdate /RV32I_tb/dut/core/control_unit/alu_op
-add wave -noupdate /RV32I_tb/dut/core/control_unit/alu_a
-add wave -noupdate /RV32I_tb/dut/core/control_unit/alu_b
-add wave -noupdate /RV32I_tb/dut/core/control_unit/alu_exec_a
-add wave -noupdate /RV32I_tb/dut/core/control_unit/alu_exec_b
-add wave -noupdate /RV32I_tb/dut/core/alu/out
-add wave -noupdate /RV32I_tb/dut/core/imm
+add wave -noupdate /RV32I_tb/dut/program_counter
+add wave -noupdate /RV32I_tb/dut/control_unit/program_counter_new
+add wave -noupdate /RV32I_tb/dut/control_unit/program_counter_plus_4
+add wave -noupdate /RV32I_tb/dut/mnemonic
+add wave -noupdate /RV32I_tb/dut/control_unit_state
+add wave -noupdate /RV32I_tb/dut/control_unit/alu_op
+add wave -noupdate /RV32I_tb/dut/control_unit/alu_a
+add wave -noupdate /RV32I_tb/dut/control_unit/alu_b
+add wave -noupdate /RV32I_tb/dut/control_unit/alu_exec_a
+add wave -noupdate /RV32I_tb/dut/control_unit/alu_exec_b
+add wave -noupdate /RV32I_tb/dut/alu/out
+add wave -noupdate /RV32I_tb/dut/imm
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {17 ns} 0}
 quietly wave cursor active 1
