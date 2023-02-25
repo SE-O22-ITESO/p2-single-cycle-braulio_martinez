@@ -114,23 +114,6 @@ set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[23] -
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[25] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[20] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[14] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/be/shifter.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/be/comparators.sv
-set_global_assignment -name TEXT_FILE ../questa_project/program.txt
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/common/adder_substracter_bmod.sv
-set_global_assignment -name VERILOG_FILE ../src/common/full_adder.v
-set_global_assignment -name VERILOG_FILE ../src/common/adder_nbits.v
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/common/RV32I_defines.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/fe_pkg.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/be/be_pkg.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/common/RV32I_register_file.sv
-set_global_assignment -name VERILOG_FILE ../src/common/adder_substracter.v
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/RV32I_decoder.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/be/RV32I_alu.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/control_unit.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/RV32I_core.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../src/RV32I.sv
-set_global_assignment -name SIGNALTAP_FILE signtal_tap.stp
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to "RV32I_core:core|RV32I_alu:alu|a[0]" -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to "RV32I_core:core|RV32I_alu:alu|a[10]" -section_id auto_signaltap_0
 set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to "RV32I_core:core|RV32I_alu:alu|a[11]" -section_id auto_signaltap_0
@@ -701,5 +684,24 @@ set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[12] -
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[17] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[24] -to auto_signaltap_0|vcc -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=sld_reserved_MDE2545A_RV32I_auto_signaltap_0_1_77ce," -section_id auto_signaltap_0
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/rf_inputs_mux.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/alu_inputs_mux.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/be/shifter.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/be/comparators.sv
+set_global_assignment -name TEXT_FILE ../questa_project/program.txt
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/common/adder_substracter_bmod.sv
+set_global_assignment -name VERILOG_FILE ../src/common/full_adder.v
+set_global_assignment -name VERILOG_FILE ../src/common/adder_nbits.v
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/common/RV32I_defines.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/fe_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/be/be_pkg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/common/RV32I_register_file.sv
+set_global_assignment -name VERILOG_FILE ../src/common/adder_substracter.v
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/RV32I_decoder.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/be/RV32I_alu.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/fe/control_unit.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/RV32I_core.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../src/RV32I.sv
+set_global_assignment -name SIGNALTAP_FILE signtal_tap.stp
 set_global_assignment -name SLD_FILE db/signtal_tap_auto_stripped.stp
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
