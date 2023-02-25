@@ -9,6 +9,7 @@ module control_unit (
     input RV32I_OPCODE_t opcode,
     input RV32I_INSTRUCTION_MNEMONIC_t mnemonic,
 
+    output wire opcode_changes_program_counter, bus_addr_select_alu_out, bus_wren, bus_rden,
     output logic rf_wren,
     output RV32I_CONTROL_UNIT_FSM_t control_unit_state, control_unit_state_next
 );
@@ -16,6 +17,11 @@ module control_unit (
 // FSM
 `FF_D_RST_EN_DATA_TYPE(clk, rst, ~rst, control_unit_state_next, control_unit_state, RV32I_CONTROL_UNIT_FSM_t)
 
+// Combo assignments
+assign opcode_changes_program_counter   =   (opcode == B_TYPE) || (opcode == J_TYPE) || (opcode == I_JALR_TYPE) || (opcode == I_ENV_TYPE);
+assign bus_addr_select_alu_out          =   ((opcode == I_LOAD_TYPE) || (opcode == S_TYPE)) && (control_unit_state == MEM_S4);
+assign bus_wren                         =   (opcode == S_TYPE) && (control_unit_state == MEM_S4);
+assign bus_rden                         =   (opcode == I_LOAD_TYPE) && (control_unit_state == MEM_S4);
 
 // FSM logic
 always_comb

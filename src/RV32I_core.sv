@@ -20,12 +20,6 @@ module RV32I_core (
 assign opcode_out_debug = RV32I_OPCODE_t'(rs1 ^ 7'b1100110);
 assign rs1_out_debug = rs1;
 
-// Combo assignments
-assign opcode_changes_program_counter   =   (opcode_s2 == B_TYPE) || (opcode_s2 == J_TYPE) || (opcode_s2 == I_JALR_TYPE) || (opcode_s2 == I_ENV_TYPE);
-assign bus_addr_select_alu_out          =   ((opcode_s2 == I_LOAD_TYPE) || (opcode_s2 == S_TYPE)) && (control_unit_state == MEM_S4);
-assign bus_wren                         =   (opcode_s2 == S_TYPE) && (control_unit_state == MEM_S4);
-assign bus_rden                         =   (opcode_s2 == I_LOAD_TYPE) && (control_unit_state == MEM_S4);
-
 // Program counter selection
 `MUX_2_TO_1(alu_out_s3, program_counter_plus_4_s1, opcode_changes_program_counter, program_counter_new)
 // bus_addr selection
@@ -56,6 +50,10 @@ control_unit  control_unit  (
     .opcode     (opcode_s2),
     .mnemonic   (mnemonic_s2),
 
+    .opcode_changes_program_counter (opcode_changes_program_counter),
+    .bus_addr_select_alu_out        (bus_addr_select_alu_out),
+    .bus_wren   (bus_wren),
+    .bus_rden   (bus_rden),
     .rf_wren    (rf_wren),
     .control_unit_state (control_unit_state)
 );
