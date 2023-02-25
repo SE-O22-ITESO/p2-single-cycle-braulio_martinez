@@ -43,8 +43,8 @@ module RV32I_tb ();
     assign rom_addr     = (bus_addr - 32'h4000000) >> 2;
     assign ram_addr     = (bus_addr - 32'h10010000) >> 2;
     assign bus_rddata   =  bus_addr[28]     ? 
-                            RV32I_OPERAND_t'(ram_rddata)      :
-                            RV32I_OPERAND_t'(rom[rom_addr]);
+                           ram_rddata       :
+                           rom[rom_addr];
 
     initial forever #1 clk = ~clk;
     initial begin
