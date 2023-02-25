@@ -1,5 +1,5 @@
 // FETCH_S1 STAGE
-`FF_D_RST_EN(clk, rst, (control_unit_state == FETCH_S1), raw_bits, raw_bits_s1)
+`FF_D_RST_EN(clk, rst, (control_unit_state == FETCH_S1), bus_rddata, raw_bits_s1)
 `FF_D_RST_EN(clk, rst, (control_unit_state == FETCH_S1), alu_out, program_counter_plus_4_s1)
 
 // DECODE_S2 STAGE
@@ -15,6 +15,9 @@
 
 // EXECUTE_S3 STAGE
 `FF_D_RST_EN(clk, rst, (control_unit_state == EXECUTE_S3), alu_out, alu_out_s3)
+
+// MEM_S4 STAGE
+`FF_D_RST_EN(clk, rst, (control_unit_state == MEM_S4), bus_rddata, bus_rddata_s4)
 
 // WRITEBACK_S5 STAGE
 `FF_D_RST_EN_RESET_VALUE(clk, rst, (control_unit_state == WRITEBACK_S5), program_counter_new, program_counter_s1, `RV32I_INSTRUCTION_WIDTH'h4000000)
