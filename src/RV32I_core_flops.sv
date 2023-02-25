@@ -8,10 +8,12 @@
 `FF_D_RST_EN_DATA_TYPE(clk, rst, (control_unit_state == DECODE_S2), rd_addr, rd_addr_s2, RV32I_RD_t)
 `FF_D_RST_EN_DATA_TYPE(clk, rst, (control_unit_state == DECODE_S2), opcode, opcode_s2, RV32I_OPCODE_t)
 `FF_D_RST_EN_DATA_TYPE(clk, rst, (control_unit_state == DECODE_S2), mnemonic, mnemonic_s2, RV32I_INSTRUCTION_MNEMONIC_t)
-`FF_D_RST_EN_DATA_TYPE(clk, rst, (control_unit_state == DECODE_S2), rs1, rs1_s2, RV32I_OPERAND_t)
+
+// Read is async, as long as we stage read addresses correctly, we can keep rs1/rs2/rd as comb
+/* `FF_D_RST_EN_DATA_TYPE(clk, rst, (control_unit_state == DECODE_S2), rs1, rs1_s2, RV32I_OPERAND_t)
 `FF_D_RST_EN_DATA_TYPE(clk, rst, (control_unit_state == DECODE_S2), rs2, rs2_s2, RV32I_OPERAND_t)
 `FF_D_RST_EN_DATA_TYPE(clk, rst, (control_unit_state == DECODE_S2), rd, rd_s2, RV32I_OPERAND_t)
-`FF_D_RST_EN_DATA_TYPE(clk, rst, (control_unit_state == DECODE_S2), imm, imm_s2, RV32I_OPERAND_t)
+`FF_D_RST_EN_DATA_TYPE(clk, rst, (control_unit_state == DECODE_S2), imm, imm_s2, RV32I_OPERAND_t) */
 
 // EXECUTE_S3 STAGE
 `FF_D_RST_EN(clk, rst, (control_unit_state == EXECUTE_S3), alu_out, alu_out_s3)
@@ -21,4 +23,3 @@
 
 // WRITEBACK_S5 STAGE
 `FF_D_RST_EN_RESET_VALUE(clk, rst, (control_unit_state == WRITEBACK_S5), program_counter_new, program_counter_s1, `RV32I_INSTRUCTION_WIDTH'h4000000)
-
