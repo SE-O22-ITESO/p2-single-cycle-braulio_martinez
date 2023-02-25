@@ -23,9 +23,18 @@ always_comb
         control_unit_state_next <= FETCH_S1;
     else begin
         case (control_unit_state)
+            IDLE_S0:        control_unit_state_next <= FETCH_S1;
             FETCH_S1:       control_unit_state_next <= DECODE_S2;
             DECODE_S2:      control_unit_state_next <= EXECUTE_S3;
-            EXECUTE_S3:     control_unit_state_next <= WRITEBACK_S5;
+
+            EXECUTE_S3:     
+                case (opcode)
+                    I_LOAD_TYPE, S_TYPE:
+                        control_unit_state_next <= MEM_S4;
+                    default:control_unit_state_next <= WRITEBACK_S5;
+                endcase
+
+            MEM_S4:         control_unit_state_next <= WRITEBACK_S5;
             WRITEBACK_S5:   control_unit_state_next <= FETCH_S1;
 
             default: control_unit_state_next <= FETCH_S1;

@@ -46,7 +46,7 @@ package fe_pkg;
 
     //State Machine for control
     typedef enum reg [2:0] {
-        FETCH_S1, DECODE_S2, EXECUTE_S3, MEM_S4, WRITEBACK_S5
+        IDLE_S0, FETCH_S1, DECODE_S2, EXECUTE_S3, MEM_S4, WRITEBACK_S5
     } RV32I_CONTROL_UNIT_FSM_t;
 
 endpackage

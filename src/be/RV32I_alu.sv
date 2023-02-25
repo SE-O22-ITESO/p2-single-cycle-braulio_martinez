@@ -67,7 +67,7 @@ always_comb
     case (mnemonic)
 
         SLLI, SRLI, SRAI:   shifter_num_of_shifts <= {{27{1'b0}}, b[4:0]};
-        AUIPC:              shifter_num_of_shifts <= 'd12;
+        AUIPC, LUI:         shifter_num_of_shifts <= 'd12;
 
         default: shifter_num_of_shifts <= b;
     endcase
