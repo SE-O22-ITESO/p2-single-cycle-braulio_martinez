@@ -24,7 +24,7 @@ RV32I_core core(
     .rst(rst),
     .raw_bits(instruction),
 
-    .program_counter(core_program_counter),
+    .program_counter_s1(core_program_counter),
     .opcode_out_debug(opcode),
     .rs1_out_debug(rs1)
 );
