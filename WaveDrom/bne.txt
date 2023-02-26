@@ -1,0 +1,52 @@
+{ "signal" : [
+  { "name": "clk",			"wave": "P........." },
+  { "name": "reset",     	"wave": "10........" },
+  { "name": "State",        "wave": "x345x|345x", 	"data": ["FETCH", "DEC", "EXE","FETCH", "DEC", "EXE"] },
+  
+  {},
+  ['Program Counter',
+  { "name": "PC",        	"wave": "=..9x|=.7x",	"data": ["0x400000", "0x400004","0x400100", "0x40010c"] },
+  { "name": "PC+4",        	"wave": "x9..x|=..x", 	"data": ["0x400004", "0x400104","0x400010", "0x400014"] },
+  { "name": "PC+imm",      	"wave": "xx=.x|.7.x",	"data": ["0x400008", "0x40010c","0x400010", "0x400014"] },
+  { "name": "PCWrite",     	"wave": "x0.1x|0.1x" },
+  { "name": "PCWriteCond",  "wave": "x0..x|0.1x" },
+   ],
+  {},
+
+  ['ALU',
+  { "name": "ALUOp",        "wave": "x=.=x|=.=x", 	"data": ["0", "1", "0","1"]},  
+  { "name": "ALUResult",    "wave": "x===x|===x", 	"data": ["0x400004", "0x400008", "0", "0x400104", "0x40010c", "2"] },
+  { "name": "ALUSrcA",     	"wave": "x0.1x|0.1x" },
+  { "name": "ALUSrcB",      "wave": "x===x|===x", 	"data": ["1", "2", "0","1", "2", "0"] },
+  { "name": "A",        	"wave": "x.=.x|.=.x", 	"data": ["0x3", "0x03", "0x07", "0x400008", "0"] },
+  { "name": "B",        	"wave": "x.=.x|.=.x", 	"data": ["0x3", "0x01", "0x07", "0x400008", "0"] },
+  ],
+   
+   
+  {},
+  { "name": "IRWrite",     	"wave": "010.x|10.x" },
+  { "name": "IR",        	"wave": "x.=.x|.=.x", "data": ["0x01398263", "0x01398263", "0x07", "0x400008", "0"] },
+  { "name": "Imm",        	"wave": "x.=.x|.=.x", "data": ["0x8", "0x8", "0x400004", "0x400008", "0"] },
+  
+  { "name": "ALUROut",      "wave": "x....|....", "data": ["2", "0", "0x400004", "0x400010", "0"] },
+    
+  { "name": "IoD",     		"wave": "x10.x|10.x" },
+  { "name": "MemRead",     	"wave": "x10.x|10.x" },
+  { "name": "MemWrite",    	"wave": "x0..x|0..x" },
+  { "name": "MemtoReg",     "wave": "x0..x|0..x" },
+
+  { "name": "RegWrite",     "wave": "x0..x|0..x" },
+  
+],
+  
+ 
+   head:{
+  text:['tspan', {class:'h3', fill:'black','font-weight':'bold'}, 'B-Type: bne s1, s2, PC+=0x8'],
+   tick:0,
+   every:1
+ },
+   
+  
+    
+  "config" : { "hscale" : 2 }
+}
