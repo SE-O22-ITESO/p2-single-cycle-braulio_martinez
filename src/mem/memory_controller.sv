@@ -16,57 +16,29 @@ module memory_controller (
 
 MEM_SOURCE_t mem_source;
 
-assign rom_addr     = (bus_addr - 32'h400000) >> 2;
-assign ram_addr     = (bus_addr - 32'h10010000) >> 2;
+assign rom_addr     =   (bus_addr - 32'h400000) >> 2;
+assign ram_addr     =   (bus_addr - 32'h10010000) >> 2;
 
-always_comb
-    priority casez (bus_addr)
-        GPIO_OUT_ADDR:
-            mem_source <= GPIO_OUT;
-        
-        GPIO_IN_ADDR:
-            mem_source <= GPIO_IN;
-        
-        32'b???1_????_????_???1_????_????_????_????:
-            mem_source <= RAM;
+assign mem_source   =   (bus_addr == GPIO_OUT_ADDR) ?
+                        GPIO_OUT    :
+                        (bus_addr == GPIO_IN_ADDR)  ?
+                        GPIO_IN     :
+                        (bus_addr[16] && bus_addr[28]) ?
+                        RAM         :
+                        ROM;
 
-        32'b0000_0000_01??_????_????_????_????_????:
-            mem_source <= ROM;     
+assign bus_rddata   =   (mem_source == GPIO_IN)     ?
+                        gpio_rddata :
+                        (mem_source == RAM)         ?
+                        ram_rddata  :
+                        rom_rddata;
 
-        default : mem_source <= ROM;
-    endcase
+assign ram_wren     =   (mem_source == RAM)         ?
+                        bus_wren    :
+                        '0;
 
-always_comb
-    case (mem_source)
-        GPIO_OUT    : begin
-            bus_rddata  <= '0;
-            ram_wren    <= '0;
-            gpio_wren   <= bus_wren;
-        end
-
-        GPIO_IN     : begin
-            bus_rddata  <= gpio_rddata;
-            ram_wren    <= '0;
-            gpio_wren   <= '0;
-        end
-
-        ROM         : begin
-            bus_rddata  <= rom_rddata;
-            ram_wren    <= '0;
-            gpio_wren   <= '0;
-        end
-
-        RAM         : begin
-            bus_rddata  <= ram_rddata;
-            ram_wren    <= bus_wren;
-            gpio_wren   <= '0;
-        end
-
-        default     : begin
-            bus_rddata  <= '0;
-            ram_wren    <= '0;
-            gpio_wren   <= '0;
-        end
-    endcase
+assign gpio_wren    =   (mem_source == GPIO_OUT)    ?
+                        bus_wren    :
+                        '0;
 
 endmodule
