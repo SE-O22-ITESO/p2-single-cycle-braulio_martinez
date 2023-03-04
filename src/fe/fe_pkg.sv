@@ -45,8 +45,12 @@ package fe_pkg;
     typedef reg [`RV32I_IMM_WIDTH-1:0]      RV32I_IMM_t;
 
     //State Machine for control
-    typedef enum reg [2:0] {
+    typedef enum {
         IDLE_S0, FETCH_S1, DECODE_S2, EXECUTE_S3, MEM_S4, WRITEBACK_S5
     } RV32I_CONTROL_UNIT_FSM_t;
+
+    typedef enum { 
+        PC_PLUS_4, PC_PLUS_IMM, ALU_OUT
+    } PC_INPUT_SELECTOR_t;
 
 endpackage
