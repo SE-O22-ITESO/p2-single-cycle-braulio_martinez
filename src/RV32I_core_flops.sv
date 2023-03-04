@@ -22,4 +22,4 @@
 `FF_D_RST_EN(clk, rst, (control_unit_state == MEM_S4), bus_rddata, bus_rddata_s4)
 
 // WRITEBACK_S5 STAGE
-`FF_D_RST_EN_RESET_VALUE(clk, rst, program_counter_wren, program_counter_new, program_counter_s1, `RV32I_INSTRUCTION_WIDTH'h4000000)
+`FF_D_RST_EN_RESET_VALUE(clk, rst, program_counter_wren, program_counter_new, program_counter_s1, `RV32I_INSTRUCTION_WIDTH'h400000)
