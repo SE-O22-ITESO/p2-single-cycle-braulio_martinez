@@ -71,7 +71,7 @@ always_comb
             rs1_addr <= '0;
             rs2_addr <= '0;
             rd_addr  <= raw_bits[11:7];
-            imm <= { {12{1'b0}}, raw_bits[31:12] };
+            imm <= { raw_bits[31:12], {12{1'b0}} };
         end
 
         J_TYPE: begin

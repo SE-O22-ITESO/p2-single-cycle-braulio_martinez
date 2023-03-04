@@ -38,7 +38,7 @@ always_comb
                 case (opcode)
                     I_LOAD_TYPE, S_TYPE:
                         control_unit_state_next <= MEM_S4;
-                    B_TYPE, J_TYPE:
+                    B_TYPE, J_TYPE, U_AUI_TYPE:
                         control_unit_state_next <= FETCH_S1;
                     default:control_unit_state_next <= WRITEBACK_S5;
                 endcase
@@ -56,11 +56,11 @@ always_comb
 
         // JAL already has everything 'computed' by S3 point
         EXECUTE_S3:
-            rf_wren <= ((mnemonic == JAL) || (mnemonic == JALR)) ? '1 : '0;
+            rf_wren <= ((mnemonic == JAL) || (mnemonic == JALR) || (mnemonic == AUIPC)) ? '1 : '0;
 
         WRITEBACK_S5:
             case (opcode)
-                R_TYPE, I_TYPE, I_LOAD_TYPE, U_AUI_TYPE, U_LUI_TYPE:
+                R_TYPE, I_TYPE, I_LOAD_TYPE, U_LUI_TYPE:
                     rf_wren         <= '1;
 
                 default:
@@ -78,7 +78,7 @@ always_comb
 
         EXECUTE_S3:
             case (mnemonic)
-                BEQ, BNE, BLT, BGE, BLTU, BGEU, JAL:
+                BEQ, BNE, BLT, BGE, BLTU, BGEU, JAL, AUIPC:
                     program_counter_wren            <= '1;
                 default :
                     program_counter_wren            <= '0;

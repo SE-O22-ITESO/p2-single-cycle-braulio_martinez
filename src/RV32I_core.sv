@@ -96,6 +96,7 @@ program_counter_inputs_mux program_counter_inputs_mux (
 rf_inputs_mux rf_inputs_mux (
     .alu_out    (alu_out_s3),
     .program_counter_plus_4 (program_counter_plus_4_s1),
+    .program_counter_plus_imm (program_counter_plus_imm_s2),
     .opcode     (opcode_s2),
     .mnemonic   (mnemonic_s2),
     .bus_rddata (bus_rddata_s4),

@@ -58,8 +58,8 @@ shifter shifter (
 
 // Adder inputs and muxing
 assign adder_substracter_mode = (mnemonic == SUB) ? '1 : '0;
-assign a_adder = (mnemonic == AUIPC) ? b : a;
-assign b_adder = (mnemonic == AUIPC) ? sll : b;
+assign a_adder = a;
+assign b_adder = b;
 
 // Shifter inputs and muxing
 assign shifter_operand = a;
