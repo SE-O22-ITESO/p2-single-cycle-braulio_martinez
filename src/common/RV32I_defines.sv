@@ -17,6 +17,11 @@
             q <= d;\
 		end
 
+`define FF_D_RST(clk, rst, d, q)\
+    always @(posedge clk, posedge rst) begin \
+            q <= d;\
+		end
+
 `define FF_D_RST_EN_RESET_VALUE(clk, rst, en, d, q, reset_value)\
     always @(posedge clk, posedge rst) begin \
         if (rst) \
