@@ -9,23 +9,51 @@ module RV32I (
 );
 
 RV32I_OPERAND_t bus_addr, rom_addr, ram_addr;
-RV32I_OPERAND_t ram_rddata;
+RV32I_OPERAND_t ram_rddata, rom_rddata, gpio_rddata;
 RV32I_OPERAND_t bus_rddata, bus_wrdata;
-wire bus_wren;
-
-// Prevent Quartus from skipping synthesis
-assign program_counter = bus_addr && 32'hdead_beef;
-
-assign rom_addr     = (bus_addr - 32'h400000) >> 2;
-assign ram_addr     = (bus_addr - 32'h10010000) >> 2;
-assign bus_rddata   =  bus_addr[28]     ? 
-                       ram_rddata       :
-                       rom[rom_addr];
+wire bus_wren, ram_wren, gpio_wren;
 
 parameter TOTAL_INSTRUCTIONS = 18;
 reg [`RV32I_INSTRUCTION_WIDTH-1:0] rom [TOTAL_INSTRUCTIONS];
 initial
     $readmemb("program.txt", rom);
+assign rom_rddata = rom[rom_addr];
+
+
+// Prevent Quartus from skipping synthesis
+assign program_counter = bus_addr && 32'hdead_beef;
+
+assign rom_rddata = rom[rom_addr];
+
+gpio    gpio (
+    .clk        (clk),
+    .rst        (rst),
+    .gpio_port_in   (gpio_port_in),
+    .gpio_addr      (bus_addr),
+    .gpio_wrdata    (bus_wrdata),
+    .gpio_wren      (gpio_wren),
+
+    .gpio_rddata    (gpio_rddata),
+    .gpio_port_out  (gpio_port_out)
+);
+
+memory_controller memory_controller (
+    .clk        (clk),
+    .rst        (rst),
+    .bus_addr   (bus_addr),
+    .bus_wrdata (bus_wrdata),
+    .bus_wren   (bus_wren),
+
+    .rom_addr   (rom_addr)
+    .rom_rddata (rom_rddata),
+    .ram_addr   (ram_addr),
+    .ram_rddata (ram_rddata),
+    .ram_wren   (ram_wren),
+
+    .gpio_rddata (gpio_rddata),
+    .gpio_wren  (gpio_wren)
+;)
+
 
 parameter TOTAL_RAM_ENTRIES = 32;
 register_file #  (
@@ -34,7 +62,7 @@ register_file #  (
 ) ram (
     .clk        (clk),
     .rst        (rst),
-    .wr_enable  (bus_wren),
+    .wr_enable  (ram_wren),
     .wr_addr    (bus_addr),
     .wr_data    (bus_wrdata),
     .rd_addr    (ram_addr),

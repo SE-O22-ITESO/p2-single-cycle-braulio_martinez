@@ -2,7 +2,7 @@
 import fe_pkg::*;
 
 module alu_inputs_mux (
-    input RV32I_OPERAND_t rs1, rs2, rd, imm,
+    input RV32I_OPERAND_t rs1, rs2, imm,
     input RV32I_OPCODE_t opcode,
     input RV32I_OPERAND_t program_counter,
     input RV32I_CONTROL_UNIT_FSM_t control_unit_state,
