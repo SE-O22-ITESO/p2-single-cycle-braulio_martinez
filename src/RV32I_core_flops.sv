@@ -8,11 +8,11 @@
 `FF_D_RST(clk, rst, opcode, opcode_s2)
 `FF_D_RST(clk, rst, mnemonic, mnemonic_s2)
 
-`FF_D_RST(clk, rst, rs1, rs1_s2)
-`FF_D_RST(clk, rst, rs2, rs2_s2)
-`FF_D_RST(clk, rst, imm, imm_s2)
+`FF_D_RST_EN(clk, rst, (control_unit_state == DECODE_S2), rs1, rs1_s2)
+`FF_D_RST_EN(clk, rst, (control_unit_state == DECODE_S2), rs2, rs2_s2)
+`FF_D_RST_EN(clk, rst, (control_unit_state == DECODE_S2), imm, imm_s2)
 
-`FF_D_RST(clk, rst, alu_out, program_counter_plus_imm_s2)
+`FF_D_RST_EN(clk, rst, (control_unit_state == DECODE_S2), alu_out, program_counter_plus_imm_s2)
 
 // EXECUTE_S3 STAGE
 `FF_D_RST_EN(clk, rst, (control_unit_state == EXECUTE_S3), alu_out, alu_out_s3)
