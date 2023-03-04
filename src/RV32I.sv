@@ -4,7 +4,9 @@ import fe_pkg::*;
 module RV32I (
     input wire clk,
     input wire rst,
+    input wire [7:0] gpio_port_in,
 
+    output wire [7:0] gpio_port_out,
     output wire program_counter
 );
 
@@ -22,8 +24,6 @@ assign rom_rddata = rom[rom_addr];
 
 // Prevent Quartus from skipping synthesis
 assign program_counter = bus_addr && 32'hdead_beef;
-
-assign rom_rddata = rom[rom_addr];
 
 gpio    gpio (
     .clk        (clk),
@@ -43,8 +43,9 @@ memory_controller memory_controller (
     .bus_addr   (bus_addr),
     .bus_wrdata (bus_wrdata),
     .bus_wren   (bus_wren),
+    .bus_rddata (bus_rddata),
 
-    .rom_addr   (rom_addr)
+    .rom_addr   (rom_addr),
     .rom_rddata (rom_rddata),
     .ram_addr   (ram_addr),
     .ram_rddata (ram_rddata),
@@ -52,7 +53,7 @@ memory_controller memory_controller (
 
     .gpio_rddata (gpio_rddata),
     .gpio_wren  (gpio_wren)
-;)
+);
 
 
 parameter TOTAL_RAM_ENTRIES = 32;

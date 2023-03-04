@@ -7,9 +7,9 @@ module memory_controller (
     input RV32I_OPERAND_t bus_addr, bus_wrdata,
     input wire bus_wren,
 
-    input RV32I_OPERAND_t rom_addr, ram_addr,
     input RV32I_OPERAND_t rom_rddata, ram_rddata, gpio_rddata,
 
+    output RV32I_OPERAND_t rom_addr, ram_addr,
     output RV32I_OPERAND_t bus_rddata,
     output logic ram_wren, gpio_wren
 );
