@@ -10,7 +10,6 @@
 
 `FF_D_RST(clk, rst, rs1, rs1_s2)
 `FF_D_RST(clk, rst, rs2, rs2_s2)
-`FF_D_RST(clk, rst, rd, rd_s2)
 `FF_D_RST(clk, rst, imm, imm_s2)
 
 `FF_D_RST(clk, rst, alu_out, program_counter_plus_imm_s2)

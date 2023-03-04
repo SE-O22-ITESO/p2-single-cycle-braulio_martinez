@@ -60,7 +60,6 @@ control_unit  control_unit  (
 alu_inputs_mux alu_inputs_mux (
     .rs1        (rs1_s2),
     .rs2        (rs2_s2),
-    .rd         (rd_s2),
     .imm        (imm),
     .opcode     (opcode_s2),
     .program_counter    (program_counter_s1),
