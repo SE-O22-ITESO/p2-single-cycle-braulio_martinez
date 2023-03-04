@@ -16,6 +16,6 @@ module comparators (
     assign a_lt_b_u = a < b;
     assign a_gt_b_u = a > b;
 
-    assign equal = ~^(a ^ b);
+    assign equal = ~|(a ^ b);
 
 endmodule
