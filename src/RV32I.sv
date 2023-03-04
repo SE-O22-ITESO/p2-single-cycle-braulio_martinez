@@ -22,6 +22,7 @@ initial
 assign rom_rddata = rom[rom_addr];
 
 // 1-Hz clk generator
+wire clk_1_hz_en;
 counter # (
     .MAX_COUNT(25_000_000)
 ) half_second_generator (
@@ -35,7 +36,7 @@ counter # (
 `FF_D_RST_EN(clk, rst, clk_1_hz_en, ~clk_1_hz, clk_1_hz)
 
 gpio    gpio (
-    .clk        (clk),
+    .clk        (clk_1_hz),
     .rst        (rst),
     .gpio_port_in   (gpio_port_in),
     .gpio_wrdata    (bus_wrdata),
@@ -46,7 +47,7 @@ gpio    gpio (
 );
 
 memory_controller memory_controller (
-    .clk        (clk),
+    .clk        (clk_1_hz),
     .rst        (rst),
     .bus_addr   (bus_addr),
     .bus_wrdata (bus_wrdata),
@@ -69,7 +70,7 @@ register_file #  (
     .NUM_OF_SETS    (TOTAL_RAM_ENTRIES),
     .DATA_BUS_WIDTH (`RV32I_INSTRUCTION_WIDTH)
 ) ram (
-    .clk        (clk),
+    .clk        (clk_1_hz),
     .rst        (rst),
     .wr_enable  (ram_wren),
     .wr_addr    (bus_addr),
@@ -79,7 +80,7 @@ register_file #  (
 );
 
 RV32I_core core(
-    .clk                (clk),
+    .clk                (clk_1_hz),
     .rst                (rst),
     .bus_rddata         (bus_rddata),
 
