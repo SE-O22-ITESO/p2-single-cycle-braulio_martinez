@@ -6,9 +6,10 @@ import fe_pkg::*;
 import be_pkg::*;
 
 module RV32I_alu (
-    input RV32I_OPERAND_t a, b, rs1, rs2, imm, program_counter_plus_4_s1,
+    input RV32I_OPERAND_t a, b, rs1, rs2, imm,
     input RV32I_INSTRUCTION_MNEMONIC_t mnemonic,
 
+    output logic cond_jump,
     output RV32I_OPERAND_t out
 );
 
@@ -57,7 +58,7 @@ shifter shifter (
 
 // Adder inputs and muxing
 assign adder_substracter_mode = (mnemonic == SUB) ? '1 : '0;
-assign a_adder = a;
+assign a_adder = (mnemonic == AUIPC) ? b : a;
 assign b_adder = (mnemonic == AUIPC) ? sll : b;
 
 // Shifter inputs and muxing
@@ -75,7 +76,6 @@ always_comb
 // Output muxing
 always_comb
     case (mnemonic)
-
         ADD, ADDI, LB, LH, LW, LBU, LHU, SB, SH, SW, JAL, JALR, SUB, AUIPC:
             out <= adder_substracter_out;
         XOR, XORI:  out <=  a ^ b;
@@ -88,24 +88,20 @@ always_comb
         SLTI:       out <=  (rs1_lt_imm_s && ~rs1_equal_imm) ? 'd1 : '0;
         SLTU:       out <=  (rs1_lt_rs2_u && ~rs1_equal_rs2) ? 'd1 : '0;
         SLTIU:      out <=  (rs1_lt_imm_u && ~rs1_equal_imm) ? 'd1 : '0;
-
-        BEQ:        out <=  rs1_equal_rs2   ?
-                            adder_substracter_out : program_counter_plus_4_s1;
-        BNE:        out <=  ~rs1_equal_rs2  ?
-                            adder_substracter_out : program_counter_plus_4_s1;
-        BLT:        out <=  ~rs1_equal_rs2 & rs1_lt_rs2_s ?
-                            adder_substracter_out : program_counter_plus_4_s1;
-        BGE:        out <=  rs1_equal_rs2 | rs1_gt_rs2_s ?
-                            adder_substracter_out : program_counter_plus_4_s1;
-        BLTU:       out <=  ~rs1_equal_rs2 & rs1_lt_rs2_u ?
-                            adder_substracter_out : program_counter_plus_4_s1;
-        BGEU:       out <=  ~rs1_equal_rs2 & rs1_gt_rs2_u ?
-                            adder_substracter_out : program_counter_plus_4_s1;
         
         LUI:        out <=  sll;
-
         default:    out <= '0;
-
     endcase
-    
+
+always_comb
+    case (mnemonic)
+        BEQ:        cond_jump <=  rs1_equal_rs2;
+        BNE:        cond_jump <=  ~rs1_equal_rs2;
+        BLT:        cond_jump <=  ~rs1_equal_rs2 & rs1_lt_rs2_s;
+        BGE:        cond_jump <=  rs1_equal_rs2 | rs1_gt_rs2_s;
+        BLTU:       cond_jump <=  ~rs1_equal_rs2 & rs1_lt_rs2_u;
+        BGEU:       cond_jump <=  ~rs1_equal_rs2 & rs1_gt_rs2_u;
+        default:    cond_jump <=  '0;
+    endcase
+
 endmodule : RV32I_alu
