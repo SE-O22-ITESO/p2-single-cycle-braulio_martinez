@@ -18,18 +18,16 @@ module RV32I_core (
 
 //DEBUG logic so Quartus does not skip synthesis
 assign opcode_out_debug = RV32I_OPCODE_t'(rs1 ^ 7'b1100110);
-assign rs1_out_debug = rs1;
+assign rs1_out_debug = rs1_s2;
 
-// Program counter selection
-`MUX_2_TO_1(alu_out_s3, program_counter_plus_4_s1, opcode_changes_program_counter, program_counter_new)
 // bus_addr selection
 `MUX_2_TO_1(alu_out_s3, program_counter_s1, bus_addr_select_alu_out, bus_addr)
 // bus_wrdata selection
 always_comb
     case (mnemonic_s2)
-        SB  : bus_wrdata <= { {24{rs2[7]}}, rs2[7:0]};
-        SH  : bus_wrdata <= { {16{rs2[15]}}, rs2[15:0]};
-        SW  : bus_wrdata <= rs2;
+        SB  : bus_wrdata <= { {24{rs2_s2[7]}}, rs2_s2[7:0]};
+        SH  : bus_wrdata <= { {16{rs2_s2[15]}}, rs2_s2[15:0]};
+        SW  : bus_wrdata <= rs2_s2;
         default : bus_wrdata <= '0;
     endcase
 
@@ -55,13 +53,14 @@ control_unit  control_unit  (
     .bus_wren   (bus_wren),
     .bus_rden   (bus_rden),
     .rf_wren    (rf_wren),
+    .program_counter_wren (program_counter_wren),
     .control_unit_state (control_unit_state)
 );
 
 alu_inputs_mux alu_inputs_mux (
-    .rs1        (rs1),
-    .rs2        (rs2),
-    .rd         (rd),
+    .rs1        (rs1_s2),
+    .rs2        (rs2_s2),
+    .rd         (rd_s2),
     .imm        (imm),
     .opcode     (opcode_s2),
     .program_counter    (program_counter_s1),
@@ -74,13 +73,24 @@ alu_inputs_mux alu_inputs_mux (
 RV32I_alu alu (
     .a          (alu_a),
     .b          (alu_b),
-    .rs1        (rs1),
-    .rs2        (rs2),
-    .imm        (imm),
+    .rs1        (rs1_s2),
+    .rs2        (rs2_s2),
+    .imm        (imm_s2),
     // Force ALU to ADD during other stages for PC+1
     .mnemonic   ((control_unit_state == EXECUTE_S3) ? mnemonic_s2 : ADD),
-    .program_counter_plus_4_s1 (program_counter_plus_4_s1),
+
+    .cond_jump  (cond_jump),
     .out        (alu_out)
+);
+
+program_counter_inputs_mux program_counter_inputs_mux (
+    .program_counter_plus_4     (program_counter_plus_4_s1),
+    .program_counter_plus_imm   (program_counter_plus_imm_s2),
+    .alu_out                    (alu_out_s3),
+    .opcode                     (opcode_s2),
+    .cond_jump                  (cond_jump),
+
+    .program_counter_new        (program_counter_new)
 );
 
 rf_inputs_mux rf_inputs_mux (
@@ -102,9 +112,9 @@ RV32I_register_file #  (
     .wr_enable  (rf_wren),
     .wr_addr    (rd_addr_s2),
     .wr_data    (rf_write_data),
-    .rd_addr_1  (rs1_addr_s2),
-    .rd_addr_2  (rs2_addr_s2),
-    .rd_addr_3  (rd_addr_s2),
+    .rd_addr_1  (rs1_addr),
+    .rd_addr_2  (rs2_addr),
+    .rd_addr_3  (rd_addr),
     .rd_data_1  (rs1),
     .rd_data_2  (rs2),
     .rd_data_3  (rd)
