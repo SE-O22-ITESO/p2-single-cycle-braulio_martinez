@@ -15,17 +15,8 @@ module register_file #(parameter NUM_OF_SETS = 32, parameter DATA_BUS_WIDTH = 32
 	assign rd_data	 = 	registers[rd_addr];
 
 	//Write is synced
-	generate
-	always @(posedge clk, posedge rst) begin
-		if (rst) begin
-			for (int i=0; i<NUM_OF_SETS; i=i+1) begin : quartus_generate_fix
-				registers[i] <= i + 1'b1;
-			end
-		end else begin
-			if (wr_enable)
-				registers[wr_addr] <= wr_data;
-		end
-	end
-	endgenerate
+	always @(posedge clk)
+		if (wr_enable)
+			registers[wr_addr] <= wr_data;
 
 endmodule : register_file

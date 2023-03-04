@@ -8,17 +8,11 @@ module RV32I_core (
     input RV32I_OPERAND_t bus_rddata,
 
     output RV32I_OPERAND_t bus_addr, bus_wrdata,
-    output wire bus_wren, bus_rden,
-    output RV32I_OPCODE_t opcode_out_debug,
-    output RV32I_OPERAND_t rs1_out_debug
+    output wire bus_wren, bus_rden
 );
 
 `include "RV32I_core_internal_decls.sv"
 `include "RV32I_core_flops.sv"
-
-//DEBUG logic so Quartus does not skip synthesis
-assign opcode_out_debug = RV32I_OPCODE_t'(rs1 ^ 7'b1100110);
-assign rs1_out_debug = rs1_s2;
 
 // bus_addr selection
 `MUX_2_TO_1(alu_out_s3, program_counter_s1, bus_addr_select_alu_out, bus_addr)
@@ -48,7 +42,6 @@ control_unit  control_unit  (
     .opcode     (opcode_s2),
     .mnemonic   (mnemonic_s2),
 
-    .opcode_changes_program_counter (opcode_changes_program_counter),
     .bus_addr_select_alu_out        (bus_addr_select_alu_out),
     .bus_wren   (bus_wren),
     .bus_rden   (bus_rden),
@@ -116,8 +109,7 @@ RV32I_register_file #  (
     .rd_addr_2  (rs2_addr),
     .rd_addr_3  (rd_addr),
     .rd_data_1  (rs1),
-    .rd_data_2  (rs2),
-    .rd_data_3  (rd)
+    .rd_data_2  (rs2)
 );
 
 endmodule : RV32I_core

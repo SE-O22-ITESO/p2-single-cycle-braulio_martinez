@@ -38,6 +38,14 @@
             q <= d;\
 		end
 
+`define FF_D_RST_DATA_TYPE(clk, rst, d, q, data_type)\
+    always @(posedge clk, posedge rst) begin \
+        if (rst) \
+            q <= data_type'(0);\
+        else\
+            q <= d;\
+		end
+
 `define MUX_2_TO_1(a, b, sel_a, out)\
     always_comb begin \
         if (sel_a) \
