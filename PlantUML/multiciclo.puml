@@ -1,0 +1,66 @@
+@startuml
+hide empty description
+
+FETCH_S1    : fetch_bits    = 1
+FETCH_S1    : pc_wren       = 0
+FETCH_S1    : bus_wren      = 0
+FETCH_S1    : bus_rden      = 1
+FETCH_S1    : rf_wren       = 0
+FETCH_S1    : rf_wrdata_sel = None
+FETCH_S1    : alu_src_A     = PC
+FETCH_S1    : alu_src_B     = 0x04
+FETCH_S1    : alu_op        = ADD
+
+DECODE_S2    : fetch_bits    = 0
+DECODE_S2    : pc_wren       = 0
+DECODE_S2    : bus_wren      = 0
+DECODE_S2    : bus_rden      = 0
+DECODE_S2    : rf_wren       = 0
+DECODE_S2    : rf_wrdata_sel = None
+DECODE_S2    : alu_src_A     = PC
+DECODE_S2    : alu_src_B     = imm
+DECODE_S2    : alu_op        = ADD
+
+EXEC_S3    : fetch_bits    = 0
+EXEC_S3    : pc_wren       = (BEQ, BNE, BLT, BGE, BLTU, BGEU, JAL) ? 1 : 0
+EXEC_S3    : bus_wren      = 0
+EXEC_S3    : bus_rden      = 0
+EXEC_S3    : rf_wren       = (JAL, JALR) ? 1 : 0
+EXEC_S3    : rf_wrdata_sel = (JAL, JALR) ? PC_plus_4 : None
+EXEC_S3    : alu_src_A     = R/I/S TYPE ? rs1 :\n\t\t\tU TYPE ? imm : None
+EXEC_S3    : alu_src_B     = R TYPE ? rs2 :\n\t\t\tI/S TYPE ? imm : None\n\t\t\tLUI ? 0xd : AUI ? PC : None
+EXEC_S3    : alu_op        = Indicated by mnemonic
+
+MEM_S4     : fetch_bits    = 0
+MEM_S4     : pc_wren       = S_TYPE ? 1 : 0
+MEM_S4     : bus_wren      = S_TYPE ? 1 : 0
+MEM_S4     : bus_rden      = I_LOAD_TYPE ? 1 : 0
+MEM_S4     : rf_wren       = 0
+MEM_S4     : rf_wrdata_sel = None
+MEM_S4     : alu_src_A     = None
+MEM_S4     : alu_src_B     = None
+MEM_S4     : alu_op        = None
+
+WB_S5      : fetch_bits    = 0
+WB_S5      : pc_wren       = 1
+WB_S5      : bus_wren      = 0
+WB_S5      : bus_rden      = 0
+WB_S5      : rf_wren       = 1
+WB_S5      : rf_wrdata_sel = R/I/U TYPE ? ALU_OUT :\n\t\t\tI_LOAD TYPE ? bus_rdata : None
+WB_S5      : alu_src_A     = None
+WB_S5      : alu_src_B     = None
+WB_S5      : alu_op        = None
+
+[*] --> FETCH_S1
+FETCH_S1    --> FETCH_S1    : rst
+FETCH_S1    --> DECODE_S2
+DECODE_S2   --> EXEC_S3
+
+EXEC_S3     --> FETCH_S1    : (B/J)_TYPE
+EXEC_S3     --> MEM_S4      : I_LOAD_TYPE\nS_TYPE
+EXEC_S3     --> WB_S5       : (R/I)_TYPE
+MEM_S4      --> FETCH_S1    : S_TYPE
+MEM_S4      --> WB_S5       : I_LOAD_TYPE
+WB_S5       --> FETCH_S1
+
+@enduml
