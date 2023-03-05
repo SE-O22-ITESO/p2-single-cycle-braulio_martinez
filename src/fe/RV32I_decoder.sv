@@ -5,9 +5,9 @@ import fe_pkg::*;
 module RV32I_decoder (
     input RV32I_OPERAND_t raw_bits,
 
-    output RV32I_RS1_t  rs1_addr,
-    output RV32I_RS2_t  rs2_addr,
-    output RV32I_RD_t   rd_addr,
+    output RV32I_REGISTER_t  rs1_addr,
+    output RV32I_REGISTER_t  rs2_addr,
+    output RV32I_REGISTER_t  rd_addr,
     output RV32I_IMM_t  imm,
     output RV32I_OPCODE_t opcode,
     output RV32I_INSTRUCTION_MNEMONIC_t mnemonic
@@ -40,51 +40,51 @@ always_comb
     case (opcode)
 
         R_TYPE: begin
-            rs1_addr <= raw_bits[19:15];
-            rs2_addr <= raw_bits[24:20];
-            rd_addr  <= raw_bits[11:7];
+            rs1_addr <= RV32I_REGISTER_t'(raw_bits[19:15]);
+            rs2_addr <= RV32I_REGISTER_t'(raw_bits[24:20]);
+            rd_addr  <= RV32I_REGISTER_t'(raw_bits[11:7]);
             imm <= '0;
         end
 
         I_TYPE, I_LOAD_TYPE, I_JALR_TYPE, I_ENV_TYPE: begin
-            rs1_addr <= raw_bits[19:15];
-            rs2_addr <= '0;
-            rd_addr  <= raw_bits[11:7];
+            rs1_addr <= RV32I_REGISTER_t'(raw_bits[19:15]);
+            rs2_addr <= RV32I_REGISTER_t'('0);
+            rd_addr  <= RV32I_REGISTER_t'(raw_bits[11:7]);
             imm <= { {20{raw_bits[31]}}, raw_bits[31:20] };
         end
 
         S_TYPE: begin
-            rs1_addr <= raw_bits[19:15];
-            rs2_addr <= raw_bits[24:20];
-            rd_addr  <= '0;
+            rs1_addr <= RV32I_REGISTER_t'(raw_bits[19:15]);
+            rs2_addr <= RV32I_REGISTER_t'(raw_bits[24:20]);
+            rd_addr  <= RV32I_REGISTER_t'('0);
             imm <= { {20{raw_bits[31]}}, raw_bits[31:25], raw_bits[11:7] };
         end
         
         B_TYPE: begin
-            rs1_addr <= raw_bits[19:15];
-            rs2_addr <= raw_bits[24:20];
-            rd_addr  <= '0;
+            rs1_addr <= RV32I_REGISTER_t'(raw_bits[19:15]);
+            rs2_addr <= RV32I_REGISTER_t'(raw_bits[24:20]);
+            rd_addr  <= RV32I_REGISTER_t'('0);
             imm <= { {19{raw_bits[31]}}, raw_bits[31], raw_bits[7], raw_bits[30:25], raw_bits[11:8], 1'b0 }; 
         end
 
         U_LUI_TYPE, U_AUI_TYPE: begin
-            rs1_addr <= '0;
-            rs2_addr <= '0;
-            rd_addr  <= raw_bits[11:7];
+            rs1_addr <= RV32I_REGISTER_t'('0);
+            rs2_addr <= RV32I_REGISTER_t'('0);
+            rd_addr  <= RV32I_REGISTER_t'(raw_bits[11:7]);
             imm <= { raw_bits[31:12], {12{1'b0}} };
         end
 
         J_TYPE: begin
-            rs1_addr <= '0;
-            rs2_addr <= '0;
-            rd_addr  <= raw_bits[11:7];
+            rs1_addr <= RV32I_REGISTER_t'('0);
+            rs2_addr <= RV32I_REGISTER_t'('0);
+            rd_addr  <= RV32I_REGISTER_t'(raw_bits[11:7]);
             imm <= { {11{raw_bits[31]}}, raw_bits[31], raw_bits[19:12], raw_bits[20], raw_bits[30:21], 1'b0 };
         end
 
         default: begin
-            rs1_addr <= '0;
-            rs2_addr <= '0;
-            rd_addr  <= '0;
+            rs1_addr <= ZERO;
+            rs2_addr <= ZERO;
+            rd_addr  <= ZERO;
             imm <= '0;
         end
 

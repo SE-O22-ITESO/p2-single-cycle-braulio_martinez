@@ -5,9 +5,9 @@ RV32I_OPERAND_t                 program_counter_s1, program_counter_new, program
 RV32I_OPERAND_t                 rf_write_data;
 RV32I_OPERAND_t                 bus_rddata_s4;
 RV32I_OPCODE_t                  opcode, opcode_s2;
-RV32I_RS1_t                     rs1_addr, rs1_addr_s2;
-RV32I_RS2_t                     rs2_addr, rs2_addr_s2;
-RV32I_RD_t                      rd_addr, rd_addr_s2;
+RV32I_REGISTER_t                rs1_addr, rs1_addr_s2;
+RV32I_REGISTER_t                rs2_addr, rs2_addr_s2;
+RV32I_REGISTER_t                rd_addr, rd_addr_s2;
 RV32I_ALU_OP_t                  alu_op, alu_op_s2;
 RV32I_CONTROL_UNIT_FSM_t        control_unit_state;
 RV32I_INSTRUCTION_MNEMONIC_t    mnemonic, mnemonic_s2;

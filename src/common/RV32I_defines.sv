@@ -5,6 +5,7 @@
 `define RV32I_RS1_ADDR_WIDTH      5
 `define RV32I_RS2_ADDR_WIDTH      5
 `define RV32I_RD_ADDR_WIDTH       5
+`define RV32I_REG_ADDR_WIDTH      5
 `define RV32I_IMM_WIDTH           32
 `define RV32I_NUM_OF_REGS         32
 `define RV32I_PC_STEP             32'd4
