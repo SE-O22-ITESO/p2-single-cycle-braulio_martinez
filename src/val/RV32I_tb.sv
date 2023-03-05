@@ -31,5 +31,7 @@ module RV32I_tb ();
             );
         end */
     end
+    always @(clk)
+        force dut.clk_1_hz = clk;
 
 endmodule : RV32I_tb
