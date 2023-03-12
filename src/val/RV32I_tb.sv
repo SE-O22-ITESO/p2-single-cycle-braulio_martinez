@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 `include "RV32I_defines.sv"
 
 import fe_pkg::*;
