@@ -16,7 +16,8 @@ module FSM_UART_Tx(
     output reg rst_bit_counter,
     output reg enable_in_reg,
     output reg enable_shift_reg,
-    output reg shift_shift_reg
+    output reg shift_shift_reg,
+	output reg [2:0] tx_state
 );
 
 localparam INI_S				= 3'b000;
@@ -26,7 +27,6 @@ localparam tx_BITS_S			= 3'b011;
 localparam SHIFT_S			= 3'b100;
 localparam STOP_S				= 3'b101;
 
-reg [2:0] tx_state;
 
 
 always @(posedge rst, posedge clk)

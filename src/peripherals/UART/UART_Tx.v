@@ -9,7 +9,8 @@ module UART_Tx (
 	input n_rst,
 	input tx_send,
 	input [7:0] Tx_Data,
-	output tx
+	output tx,
+	output wire [2:0] tx_state
 );
 
 	wire rst, rst_bit_counter_w, rst_BR_w;
@@ -24,6 +25,8 @@ module UART_Tx (
 	assign rst = ~n_rst;
 	
 	assign parity = ^(Tx_Data_w);
+
+	assign tx_send_one = tx_send;
 
 	//Input register
 	Reg_Param  #(.width(8)) rx_Data_Reg_i (
@@ -57,23 +60,18 @@ module UART_Tx (
 		.rst_bit_counter(rst_bit_counter_w), 
 		.enable_in_reg(enable_in_reg_w), 
 		.enable_shift_reg(enable_shift_reg_w), 
-		.shift_shift_reg(shift_bit_w)
+		.shift_shift_reg(shift_bit_w),
+		.tx_state(tx_state)
 	);	  
 
 // For a baud rate of 9600 baudios: bit time 104.2 us, half time 52.1 us
 // For a clock frequency of 50 MHz bit time = 5210 T50MHz;
 
-Bit_Rate_Pulse # (.delay_counts(5210) ) BR_pulse (.clk(clk), .rst(rst_BR_w), 
+Bit_Rate_Pulse # (.delay_counts(5200) ) BR_pulse (.clk(clk), .rst(rst_BR_w), 
 			   .enable(1'b1), .end_bit_time(end_bit_time_w), .end_half_time (end_half_time_w)    );
 			   		   
 		
 Counter_Param # (.n(4) ) Counter_bits (.clk(clk), .rst(rst_bit_counter_w), .enable(bit_count_enable_w), .Q(count_bits_w)    );
 
-Debouncer(
-    .clk(clk),
-    .nrst(1'b1), // for DE10-Standard implementation
-    .sw(~tx_send),
-    .one_shot(tx_send_one)
-    );
 
 endmodule		

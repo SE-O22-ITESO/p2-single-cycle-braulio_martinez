@@ -10,3 +10,11 @@
         else if (en)\
             q <= d;\
 		end
+
+`define FF_D_RST(clk, rst, d, q)\
+    always @(posedge clk, posedge rst) begin \
+        if (rst) \
+            q <= 'd0;\
+        else\
+            q <= d;\
+		end
