@@ -38,9 +38,9 @@ module UART_Tx (
 	);	
 
 	//Shift register PISO
-	Shift_Register_PISO_Param  #(.NUM_BITS(11)) rx_Shift_Reg_i (
+	Shift_Register_PISO_Param  #(.NUM_BITS(12)) rx_Shift_Reg_i (
 		.rst(rst), 
-		.D({1'b1,parity,Tx_Data_w,1'b0}), 
+		.D({1'b1,parity,Tx_Data_w,1'b0, 1'b1}), 
 		.clk(clk),
 		.enable(enable_shift_reg_w), 
 		.shift(shift_bit_w),
@@ -67,7 +67,7 @@ module UART_Tx (
 // For a baud rate of 9600 baudios: bit time 104.2 us, half time 52.1 us
 // For a clock frequency of 50 MHz bit time = 5210 T50MHz;
 
-Bit_Rate_Pulse # (.delay_counts(5200) ) BR_pulse (.clk(clk), .rst(rst_BR_w), 
+Bit_Rate_Pulse # (.delay_counts(5210) ) BR_pulse (.clk(clk), .rst(rst_BR_w), 
 			   .enable(1'b1), .end_bit_time(end_bit_time_w), .end_half_time (end_half_time_w)    );
 			   		   
 		

@@ -5,11 +5,12 @@ module RV32I (
     input wire clk,
     input wire rst,
     input wire [7:0] gpio_port_in,
+    input wire UART_rx,
 
     output wire [7:0] gpio_port_out,
     output reg clk_1_hz,
 
-    output wire UART_rx, UART_tx
+    output wire UART_tx
 );
 
 RV32I_OPERAND_t bus_addr, rom_addr, ram_addr;
