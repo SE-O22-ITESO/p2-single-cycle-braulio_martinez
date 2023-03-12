@@ -7,13 +7,16 @@ module RV32I (
     input wire [7:0] gpio_port_in,
 
     output wire [7:0] gpio_port_out,
-    output reg clk_1_hz
+    output reg clk_1_hz,
+
+    output wire UART_rx, UART_tx
 );
 
 RV32I_OPERAND_t bus_addr, rom_addr, ram_addr;
-RV32I_OPERAND_t ram_rddata, rom_rddata, gpio_rddata;
+RV32I_OPERAND_t ram_rddata, rom_rddata, gpio_rddata, uart_rddata;
 RV32I_OPERAND_t bus_rddata, bus_wrdata;
-wire bus_wren, ram_wren, gpio_wren;
+wire bus_wren, ram_wren, gpio_wren, uart_tx_send, uart_rx_clear, uart_busy;
+reg [7:0] uart_tx_data;
 
 parameter TOTAL_INSTRUCTIONS = 18;
 reg [`RV32I_INSTRUCTION_WIDTH-1:0] rom [TOTAL_INSTRUCTIONS];
@@ -34,9 +37,10 @@ counter # (
 );
 
 `FF_D_RST_EN(clk, rst, clk_1_hz_en, ~clk_1_hz, clk_1_hz)
+`FF_D_RST_EN(clk, rst, uart_tx_send, bus_wrdata[7:0], uart_tx_data)
 
 gpio    gpio (
-    .clk        (clk_1_hz),
+    .clk        (clk),
     .rst        (rst),
     .gpio_port_in   (gpio_port_in),
     .gpio_wrdata    (bus_wrdata),
@@ -46,8 +50,22 @@ gpio    gpio (
     .gpio_port_out  (gpio_port_out)
 );
 
+UART_duplex uart (
+    .clk        (clk),
+    .n_rst      (~rst),
+    .rx         (UART_rx),
+    .tx         (UART_tx),
+
+    .Tx_Data    (uart_tx_data),
+
+    .tx_send    (uart_tx_send),
+    .rx_flag_clr (uart_rx_clear),
+    .uart_busy  (uart_busy)
+
+);
+
 memory_controller memory_controller (
-    .clk        (clk_1_hz),
+    .clk        (clk),
     .rst        (rst),
     .bus_addr   (bus_addr),
     .bus_wrdata (bus_wrdata),
@@ -61,7 +79,12 @@ memory_controller memory_controller (
     .ram_wren   (ram_wren),
 
     .gpio_rddata (gpio_rddata),
-    .gpio_wren  (gpio_wren)
+    .gpio_wren  (gpio_wren),
+
+    .uart_rddata (uart_rddata),
+    .uart_tx_send (uart_tx_send),
+    .uart_rx_clear (uart_rx_clear),
+    .uart_busy (uart_busy)
 );
 
 
@@ -70,7 +93,7 @@ register_file #  (
     .NUM_OF_SETS    (TOTAL_RAM_ENTRIES),
     .DATA_BUS_WIDTH (`RV32I_INSTRUCTION_WIDTH)
 ) ram (
-    .clk        (clk_1_hz),
+    .clk        (clk),
     .rst        (rst),
     .wr_enable  (ram_wren),
     .wr_addr    (bus_addr),
@@ -80,7 +103,7 @@ register_file #  (
 );
 
 RV32I_core core(
-    .clk                (clk_1_hz),
+    .clk                (clk),
     .rst                (rst),
     .bus_rddata         (bus_rddata),
 
