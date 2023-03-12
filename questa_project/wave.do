@@ -29,10 +29,19 @@ add wave -noupdate -expand -group Memory -color Cyan /RV32I_tb/dut/core/bus_addr
 add wave -noupdate -expand -group Memory -color Cyan /RV32I_tb/dut/core/bus_rddata
 add wave -noupdate -expand -group Memory -color Cyan /RV32I_tb/dut/core/bus_wrdata
 add wave -noupdate -expand -group Memory -color Cyan /RV32I_tb/dut/core/bus_wren
+add wave -noupdate -expand -group Memory /RV32I_tb/dut/memory_controller/mem_source
 add wave -noupdate -expand -group GPIO -color Gray60 /RV32I_tb/dut/gpio/gpio_port_in
 add wave -noupdate -expand -group GPIO -color Gray60 /RV32I_tb/dut/gpio/gpio_port_out
+add wave -noupdate -expand -group UART /RV32I_tb/dut/uart/rx_flag_clr
+add wave -noupdate -expand -group UART /RV32I_tb/dut/uart/tx_send
+add wave -noupdate -expand -group UART /RV32I_tb/dut/uart/Tx_Data
+add wave -noupdate -expand -group UART /RV32I_tb/dut/uart/Rx_state_out
+add wave -noupdate -expand -group UART /RV32I_tb/dut/uart/Tx_state_out
+add wave -noupdate -expand -group UART /RV32I_tb/dut/uart/uart_busy
+add wave -noupdate -expand -group UART /RV32I_tb/dut/uart/rx
+add wave -noupdate -expand -group UART /RV32I_tb/dut/uart/tx
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {305 ns} 0} {{Cursor 2} {43 ns} 0}
+WaveRestoreCursors {{Cursor 1} {100983000 ps} 0} {{Cursor 2} {19733248 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 217
 configure wave -valuecolwidth 100
@@ -48,4 +57,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {301 ns} {313 ns}
+WaveRestoreZoom {0 ps} {218400 ns}
