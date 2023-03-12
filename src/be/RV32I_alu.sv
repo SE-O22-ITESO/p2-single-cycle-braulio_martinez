@@ -87,7 +87,7 @@ always_comb
         SLTU:       out <=  (rs1_lt_rs2_u && ~rs1_equal_rs2) ? 'd1 : '0;
         SLTIU:      out <=  (rs1_lt_imm_u && ~rs1_equal_imm) ? 'd1 : '0;
         
-        LUI:        out <=  sll;
+        LUI:        out <=  imm;
 
         MUL:        out <= a * b;
         default:    out <= '0;
