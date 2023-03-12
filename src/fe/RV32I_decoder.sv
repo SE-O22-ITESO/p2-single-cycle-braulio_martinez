@@ -19,21 +19,13 @@ RV32I_FUNCT_7_t funct7;
 // Assigments
 assign opcode = RV32I_OPCODE_t'(raw_bits[`RV32I_OPCODE_WIDTH-1:0]);
 // FIXME: Might be easier to simply pass 14:12 to save some logic
-assign funct3 = (opcode == R_TYPE)      ||
-                (opcode == I_TYPE)      ||
-                (opcode == I_LOAD_TYPE) ||
-                (opcode == I_JALR_TYPE) ||
-                (opcode == I_ENV_TYPE)  ||
-                (opcode == S_TYPE)      || 
-                (opcode == B_TYPE)      ?
-                raw_bits[14:12] : '0;
+assign funct3 = raw_bits[14:12];
 
 assign funct7 = (opcode == R_TYPE)      ?
                 raw_bits[31:25]         :
                 (opcode == I_TYPE)      ?
                 raw_bits[31:25]         :
-                (opcode == I_ENV_TYPE)  ?
-                { {(`RV32I_FUNCT_7_WIDTH-1){1'b0}}, raw_bits[7]} : '0;
+                { {(`RV32I_FUNCT_7_WIDTH-1){1'b0}}, raw_bits[7]};
 
 // RS1_addr/RS2_addr/RD_addr/IMM require no 'processing' besides picking bits
 always_comb
@@ -99,7 +91,9 @@ always_comb
                 'h0: mnemonic <= (funct7[5] == '0) ?
                                  ADD :
                                  (funct7[5] == '1) ?
-                                 SUB : NULL;
+                                 SUB : 
+                                 (funct7[0] == '1) ?
+                                 MUL : NULL;
                 'h4: mnemonic <= XOR;
                 'h6: mnemonic <= OR;
                 'h7: mnemonic <= AND;

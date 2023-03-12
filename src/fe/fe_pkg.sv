@@ -21,6 +21,8 @@ package fe_pkg;
     typedef enum {
         //R-TYPE
         ADD, SUB, XOR, OR, AND, SLL, SRL, SRA, SLT, SLTU,
+        //R-TYPE RV32M
+        MUL,
         //I-TYPE
         ADDI, XORI, ORI, ANDI, SLLI, SRLI, SRAI, SLTI,
         SLTIU, LB, LH, LW, LBU, LHU, JALR, ECALL, EBREAK,

@@ -13,7 +13,7 @@ module RV32I_alu (
     output RV32I_OPERAND_t out
 );
 
-RV32I_OPERAND_t adder_substracter_out, a_adder, b_adder;
+RV32I_OPERAND_t adder_substracter_out;
 RV32I_OPERAND_t shifter_operand, shifter_num_of_shifts, sll, srl, sra;
 logic adder_substracter_mode;
 wire rs1_lt_rs2_s, rs1_gt_rs2_s, rs1_lt_rs2_u, rs1_gt_rs2_u, rs1_equal_rs2;
@@ -22,8 +22,8 @@ wire rs1_lt_imm_s, rs1_gt_imm_s, rs1_lt_imm_u, rs1_gt_imm_u, rs1_equal_imm;
 adder_substracter_bmod # (
     .NUMBER_OF_BITS(`RV32I_INSTRUCTION_WIDTH)
 ) adder_substracter (
-    .a      (a_adder),
-    .b      (b_adder),
+    .a      (a),
+    .b      (b),
     .mode   (adder_substracter_mode),
     .result (adder_substracter_out)
 );
@@ -58,8 +58,6 @@ shifter shifter (
 
 // Adder inputs and muxing
 assign adder_substracter_mode = (mnemonic == SUB) ? '1 : '0;
-assign a_adder = a;
-assign b_adder = b;
 
 // Shifter inputs and muxing
 assign shifter_operand = a;
@@ -90,6 +88,8 @@ always_comb
         SLTIU:      out <=  (rs1_lt_imm_u && ~rs1_equal_imm) ? 'd1 : '0;
         
         LUI:        out <=  sll;
+
+        MUL:        out <= a * b;
         default:    out <= '0;
     endcase
 
