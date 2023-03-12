@@ -23,6 +23,14 @@ assign mem_source   =   (bus_addr == GPIO_OUT_ADDR) ?
                         GPIO_OUT    :
                         (bus_addr == GPIO_IN_ADDR)  ?
                         GPIO_IN     :
+                        (bus_addr == UART_TX_ADDR)  ?
+                        UART_TX_ADDR:
+                        (bus_addr == UART_RX_ADDR)  ?
+                        UART_RX_ADDR:
+                        (bus_addr == UART_TX_DONE)  ?
+                        UART_TX_DONE:
+                        (bus_addr == UART_RX_DONE)  ?
+                        UART_RX_DONE:
                         (bus_addr[16] && bus_addr[28]) ?
                         RAM         :
                         ROM;
