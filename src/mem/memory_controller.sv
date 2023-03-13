@@ -46,6 +46,8 @@ assign bus_rddata   =   (mem_source == GPIO_IN)     ?
                         ram_rddata  :
                         (mem_source == UART_BUSY)   ?
                         { {31{1'b0}}, uart_busy }   :
+                        (mem_source == UART_RX_DONE)?
+                        { {31{1'b0}}, uart_rx_flag }:
                         (mem_source == UART_RX)     ?
                         uart_rddata :
                         rom_rddata;
@@ -59,5 +61,8 @@ assign gpio_wren    =   (mem_source == GPIO_OUT)    ?
                         '0;
 
 assign uart_tx_send =   (mem_source == UART_TX) && bus_wren;
+
+always @(posedge clk)
+    uart_rx_clear <= (mem_source == UART_RX) && uart_rx_flag;
 
 endmodule

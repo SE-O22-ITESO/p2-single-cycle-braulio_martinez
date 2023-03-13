@@ -11,12 +11,15 @@ module RV32I_tb ();
     wire [7:0] gpio_port_out;
     bit [7:0] gpio_port_in = 'd2;
 
+    bit uart_rx = '0;
+
     RV32I dut (
         .clk(clk),
         .rst(rst),
         .gpio_port_in   (gpio_port_in),
 
-        .gpio_port_out  (gpio_port_out)
+        .gpio_port_out  (gpio_port_out),
+        .UART_rx        (uart_rx)
     );
 
 
@@ -31,6 +34,11 @@ module RV32I_tb ();
                 dut.decoder.rs1_addr, dut.decoder.rs2_addr, dut.decoder.rd_addr, dut.decoder.imm, $signed(dut.decoder.imm)
             );
         end */
+
+        #100 uart_rx = '0;
+        @(dut.uart.Rx_state_out);
+        @(dut.uart.Rx_state_out);
+        #100 uart_rx = '1;
     end
     always @(clk)
         force dut.clk_1_hz = clk;

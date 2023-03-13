@@ -16,7 +16,7 @@ module RV32I (
 RV32I_OPERAND_t bus_addr, rom_addr, ram_addr;
 RV32I_OPERAND_t ram_rddata, rom_rddata, gpio_rddata, uart_rddata;
 RV32I_OPERAND_t bus_rddata, bus_wrdata;
-wire bus_wren, ram_wren, gpio_wren, uart_tx_send, uart_rx_clear, uart_busy;
+wire bus_wren, ram_wren, gpio_wren, uart_tx_send, uart_rx_clear, uart_busy, uart_rx_flag;
 reg [7:0] uart_tx_data;
 assign uart_rddata[31:8] = '0;
 
@@ -63,7 +63,8 @@ UART_duplex uart (
     .tx_send    (uart_tx_send),
     .rx_flag_clr (uart_rx_clear),
     .uart_busy  (uart_busy),
-    .Rx_Data_w  (uart_rddata[7:0])
+    .Rx_Data_w  (uart_rddata[7:0]),
+    .rx_flag    (uart_rx_flag)
 );
 
 memory_controller memory_controller (
@@ -86,7 +87,8 @@ memory_controller memory_controller (
     .uart_rddata (uart_rddata),
     .uart_tx_send (uart_tx_send),
     .uart_rx_clear (uart_rx_clear),
-    .uart_busy (uart_busy)
+    .uart_busy (uart_busy),
+    .uart_rx_flag (uart_rx_flag)
 );
 
 

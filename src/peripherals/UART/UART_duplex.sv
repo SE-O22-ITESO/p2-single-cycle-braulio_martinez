@@ -39,7 +39,7 @@ wire in_save_data_bits = (Rx_state_out == SAVE_DATA_BITS);
 assign rst = ~n_rst;
 assign rst_sr_w = rst;
 
-assign rx_flag_clr_one = rx_flag_clr;
+assign rx_flag_clr_one = rst ? rst : rx_flag_clr;
 
 assign parity_error = (parity != ^Rx_Data_w) ? 1'b1 : 1'b0;
 
@@ -68,7 +68,7 @@ FF_D_enable ff_par (.clk(clk),.rst(rst_sr_w),.enable(enable_out_reg_w),
 // For a baud rate of 9600 baudios: bit time 104.2 us, half time 52.1 us
 // For a clock frequency of 50 MHz bit time = 5210 T50MHz;
 
-Bit_Rate_Pulse # (.delay_counts(5200) ) BR_pulse (.clk(clk), .rst(rst_BR_w), 
+Bit_Rate_Pulse # (.delay_counts(5210) ) BR_pulse (.clk(clk), .rst(rst_BR_w), 
 			   .enable(1'b1), .end_bit_time(end_bit_time_w), .end_half_time (end_half_time_w)    );
 			   
 FSM_UART_Rx FSM_Rx (.rx(rx), .clk(clk), .rst(rst), .end_half_time_i(end_half_time_w),
