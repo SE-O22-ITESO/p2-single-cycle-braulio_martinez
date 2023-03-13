@@ -20,7 +20,7 @@ wire bus_wren, ram_wren, gpio_wren, uart_tx_send, uart_rx_clear, uart_busy, uart
 reg [7:0] uart_tx_data;
 assign uart_rddata[31:8] = '0;
 
-parameter TOTAL_INSTRUCTIONS = 18;
+parameter TOTAL_INSTRUCTIONS = 64;
 reg [`RV32I_INSTRUCTION_WIDTH-1:0] rom [TOTAL_INSTRUCTIONS];
 initial
     $readmemb("program.txt", rom);
@@ -92,7 +92,7 @@ memory_controller memory_controller (
 );
 
 
-parameter TOTAL_RAM_ENTRIES = 32;
+parameter TOTAL_RAM_ENTRIES = 64;
 register_file #  (
     .NUM_OF_SETS    (TOTAL_RAM_ENTRIES),
     .DATA_BUS_WIDTH (`RV32I_INSTRUCTION_WIDTH)

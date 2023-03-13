@@ -88,12 +88,12 @@ always_comb
 
         R_TYPE:
             case (funct3)
-                'h0: mnemonic <= (funct7[5] == '0) ?
+                'h0: mnemonic <= (funct7[0] == '1) ?
+                                 MUL :
+                                 (funct7[5] == '0) ?
                                  ADD :
                                  (funct7[5] == '1) ?
-                                 SUB : 
-                                 (funct7[0] == '1) ?
-                                 MUL : NULL;
+                                 SUB : NULL;
                 'h4: mnemonic <= XOR;
                 'h6: mnemonic <= OR;
                 'h7: mnemonic <= AND;
