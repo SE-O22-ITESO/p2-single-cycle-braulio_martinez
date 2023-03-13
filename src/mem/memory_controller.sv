@@ -46,6 +46,8 @@ assign bus_rddata   =   (mem_source == GPIO_IN)     ?
                         ram_rddata  :
                         (mem_source == UART_BUSY)   ?
                         { {31{1'b0}}, uart_busy }   :
+                        (mem_source == UART_RX)     ?
+                        uart_rddata :
                         rom_rddata;
 
 assign ram_wren     =   (mem_source == RAM)         ?

@@ -18,6 +18,7 @@ RV32I_OPERAND_t ram_rddata, rom_rddata, gpio_rddata, uart_rddata;
 RV32I_OPERAND_t bus_rddata, bus_wrdata;
 wire bus_wren, ram_wren, gpio_wren, uart_tx_send, uart_rx_clear, uart_busy;
 reg [7:0] uart_tx_data;
+assign uart_rddata[31:8] = '0;
 
 parameter TOTAL_INSTRUCTIONS = 18;
 reg [`RV32I_INSTRUCTION_WIDTH-1:0] rom [TOTAL_INSTRUCTIONS];
@@ -61,8 +62,8 @@ UART_duplex uart (
 
     .tx_send    (uart_tx_send),
     .rx_flag_clr (uart_rx_clear),
-    .uart_busy  (uart_busy)
-
+    .uart_busy  (uart_busy),
+    .Rx_Data_w  (uart_rddata[7:0])
 );
 
 memory_controller memory_controller (
