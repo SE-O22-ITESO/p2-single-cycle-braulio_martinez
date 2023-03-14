@@ -20,6 +20,9 @@ main:
         beq s0, zero, _check_uart_rx_done
     #Load the word when done
     lw a2, 0x4(s11)
+    #Check if its lower than 13
+    slti s6, a2, 0xd
+    beq s6, zero, _check_uart_rx_done
 
 	jal factorial
 	#j exit
