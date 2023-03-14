@@ -30,8 +30,6 @@ assign mem_source   =   (bus_addr == GPIO_OUT_ADDR) ?
                         UART_TX     :
                         (bus_addr == UART_RX_ADDR)  ?
                         UART_RX     :
-                        (bus_addr == UART_TX_DONE_ADDR)  ?
-                        UART_TX_DONE:
                         (bus_addr == UART_RX_DONE_ADDR)  ?
                         UART_RX_DONE:
                         (bus_addr == UART_BUSY_ADDR)  ?

@@ -2,6 +2,7 @@
 `include "RV32I_defines.sv"
 
 import fe_pkg::*;
+import uart_pkg::*;
 
 module RV32I_tb ();
 
@@ -36,9 +37,22 @@ module RV32I_tb ();
         end */
 
         #100 uart_rx = '0;
-        @(dut.uart.Rx_state_out);
-        @(dut.uart.Rx_state_out);
-        #100 uart_rx = '1;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '1;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '0;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '1;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '0;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '1;
+        
+        
     end
     always @(clk)
         force dut.clk_1_hz = clk;

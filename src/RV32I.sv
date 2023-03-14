@@ -100,7 +100,7 @@ register_file #  (
     .clk        (clk),
     .rst        (rst),
     .wr_enable  (ram_wren),
-    .wr_addr    (bus_addr),
+    .wr_addr    (ram_addr),
     .wr_data    (bus_wrdata),
     .rd_addr    (ram_addr),
     .rd_data    (ram_rddata)
