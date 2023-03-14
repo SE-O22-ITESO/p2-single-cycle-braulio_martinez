@@ -51,6 +51,25 @@ module RV32I_tb ();
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
         uart_rx = '1;
+
+        @(dut.uart.Tx_Data == '0);
+        @(dut.uart.uart_busy == '0);
+
+        #100 uart_rx = '0;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '1;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '0;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '1;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '0;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '1;
         
         
     end
