@@ -13,11 +13,8 @@ module rf_inputs_mux (
 // RD Write data
 always_comb
     case (opcode)
-        R_TYPE, I_TYPE, U_LUI_TYPE: 
+        R_TYPE, I_TYPE, U_LUI_TYPE, U_AUI_TYPE: 
             rf_write_data   <= alu_out;
-
-        U_AUI_TYPE:
-            rf_write_data   <= program_counter_plus_imm;
 
         I_LOAD_TYPE:
             case (mnemonic)
