@@ -6,8 +6,10 @@ module RV32I_core (
     input wire clk,
     input wire rst,
     input RV32I_OPERAND_t bus_rddata,
+    input RV32I_OPERAND_t rom_rddata,
 
     output RV32I_OPERAND_t bus_addr, bus_wrdata,
+    output RV32I_OPERAND_t program_counter,
     output wire bus_wren, bus_rden
 );
 
@@ -15,7 +17,7 @@ module RV32I_core (
 `include "RV32I_core_flops.sv"
 
 // bus_addr selection
-`MUX_2_TO_1(alu_out, program_counter, bus_addr_select_alu_out, bus_addr)
+assign bus_addr = alu_out;
 // bus_wrdata selection
 always_comb
     case (mnemonic)
@@ -45,7 +47,6 @@ control_unit  control_unit  (
     .opcode     (opcode),
     .mnemonic   (mnemonic),
 
-    .bus_addr_select_alu_out        (bus_addr_select_alu_out),
     .bus_wren   (bus_wren),
     .bus_rden   (bus_rden),
     .rf_wren    (rf_wren)
@@ -77,7 +78,6 @@ RV32I_alu alu (
 
 program_counter_inputs_mux program_counter_inputs_mux (
     .program_counter_plus_4     (program_counter_plus_4),
-    .program_counter_plus_imm   (program_counter_plus_imm_s2),
     .alu_out                    (alu_out),
     .opcode                     (opcode),
     .cond_jump                  (cond_jump),
@@ -88,7 +88,6 @@ program_counter_inputs_mux program_counter_inputs_mux (
 rf_inputs_mux rf_inputs_mux (
     .alu_out    (alu_out),
     .program_counter_plus_4 (program_counter_plus_4),
-    .program_counter_plus_imm (program_counter_plus_imm_s2),
     .opcode     (opcode),
     .mnemonic   (mnemonic),
     .bus_rddata (bus_rddata),

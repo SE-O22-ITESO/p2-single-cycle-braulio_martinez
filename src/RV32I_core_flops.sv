@@ -24,6 +24,6 @@
 /* `FF_D_RST_EN_RESET_VALUE(clk, rst, program_counter_wren, program_counter_new, program_counter_s1, `RV32I_INSTRUCTION_WIDTH'h400000) */
 
 // Raw bits Single Cycle
-`FF_D_RST_DATA_TYPE(clk, rst, bus_rddata, raw_bits, RV32I_OPERAND_t)
+`FF_D_RST_DATA_TYPE(clk, rst, rom_rddata, raw_bits, RV32I_OPERAND_t)
 // PC Single Cycle
 `FF_D_RST_RESET_VALUE(clk, rst, program_counter_new, program_counter, `RV32I_INSTRUCTION_WIDTH'h400000)

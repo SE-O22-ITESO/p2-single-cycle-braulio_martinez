@@ -3,7 +3,6 @@ import fe_pkg::*;
 
 module program_counter_inputs_mux (
     input RV32I_OPERAND_t program_counter_plus_4,
-    input RV32I_OPERAND_t program_counter_plus_imm,
     input RV32I_OPERAND_t alu_out,
     input RV32I_OPCODE_t opcode,
     input wire cond_jump,

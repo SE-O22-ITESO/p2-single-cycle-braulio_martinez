@@ -4,7 +4,7 @@ import mem_pkg::*;
 
 module memory_controller (
     input wire clk, rst,
-    input RV32I_OPERAND_t bus_addr, bus_wrdata,
+    input RV32I_OPERAND_t program_counter, bus_addr, bus_wrdata,
     input wire bus_wren,
 
     input RV32I_OPERAND_t rom_rddata, ram_rddata, gpio_rddata, uart_rddata,
@@ -19,7 +19,7 @@ module memory_controller (
 
 MEM_SOURCE_t mem_source;
 
-assign rom_addr     =   (bus_addr - 32'h400000) >> 2;
+assign rom_addr     =   (program_counter - 32'h400000) >> 2;
 assign ram_addr     =   (bus_addr - 32'h10010000) >> 2;
 
 assign mem_source   =   (bus_addr == GPIO_OUT_ADDR) ?

@@ -9,12 +9,11 @@ module control_unit (
     input RV32I_OPCODE_t opcode,
     input RV32I_INSTRUCTION_MNEMONIC_t mnemonic,
 
-    output wire bus_addr_select_alu_out, bus_wren, bus_rden,
+    output wire bus_wren, bus_rden,
     output logic rf_wren
 );
 
 // Combo assignments
-assign bus_addr_select_alu_out          =   ((opcode == I_LOAD_TYPE) || (opcode == S_TYPE));
 assign bus_wren                         =   (opcode == S_TYPE);
 assign bus_rden                         =   (opcode == I_LOAD_TYPE);
 

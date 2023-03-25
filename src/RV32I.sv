@@ -16,6 +16,7 @@ module RV32I (
 RV32I_OPERAND_t bus_addr, rom_addr, ram_addr;
 RV32I_OPERAND_t ram_rddata, rom_rddata, gpio_rddata, uart_rddata;
 RV32I_OPERAND_t bus_rddata, bus_wrdata;
+RV32I_OPERAND_t program_counter;
 wire bus_wren, ram_wren, gpio_wren, uart_tx_send, uart_rx_clear, uart_busy, uart_rx_flag;
 reg [7:0] uart_tx_data;
 assign uart_rddata[31:8] = '0;
@@ -75,6 +76,8 @@ memory_controller memory_controller (
     .bus_wren   (bus_wren),
     .bus_rddata (bus_rddata),
 
+    .program_counter (program_counter),
+
     .rom_addr   (rom_addr),
     .rom_rddata (rom_rddata),
     .ram_addr   (ram_addr),
@@ -113,7 +116,10 @@ RV32I_core core(
 
     .bus_addr           (bus_addr),
     .bus_wren           (bus_wren),
-    .bus_wrdata         (bus_wrdata)
+    .bus_wrdata         (bus_wrdata),
+
+    .rom_rddata         (rom_rddata),
+    .program_counter    (program_counter)
 );
     
 endmodule : RV32I

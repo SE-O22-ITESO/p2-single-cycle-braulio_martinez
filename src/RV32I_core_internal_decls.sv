@@ -1,7 +1,7 @@
 RV32I_OPERAND_t                 rs1, rs2, imm, alu_a, alu_b, alu_out;
 RV32I_OPERAND_t                 program_counter_new;
 
-RV32I_OPERAND_t                 program_counter, program_counter_plus_4;
+RV32I_OPERAND_t                 program_counter_plus_4;
 RV32I_OPERAND_t                 raw_bits;
 
 RV32I_OPERAND_t                 rf_write_data;
