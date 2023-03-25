@@ -20,6 +20,17 @@
 
 `define FF_D_RST(clk, rst, d, q)\
     always @(posedge clk, posedge rst) begin \
+            if (rst) \
+                q <= '0;\
+            else\
+                q <= d;\
+		end
+
+`define FF_D_RST_RESET_VALUE(clk, rst, d, q, reset_value)\
+    always @(posedge clk, posedge rst) begin \
+        if (rst) \
+            q <= reset_value;\
+        else\
             q <= d;\
 		end
 
