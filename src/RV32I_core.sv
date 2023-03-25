@@ -48,8 +48,7 @@ control_unit  control_unit  (
     .bus_addr_select_alu_out        (bus_addr_select_alu_out),
     .bus_wren   (bus_wren),
     .bus_rden   (bus_rden),
-    .rf_wren    (rf_wren),
-    .control_unit_state (control_unit_state)
+    .rf_wren    (rf_wren)
 );
 
 alu_inputs_mux alu_inputs_mux (
