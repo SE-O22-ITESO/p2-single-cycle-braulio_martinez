@@ -15,13 +15,15 @@ RV32I_OPERAND_t alu_exec_a, alu_exec_b;
 
 // ALU is used during FETCH to increase PC
 // ALUI is also used speculatively during DECODE to get the PC += IMM value
-assign alu_a    =   control_unit_state == EXECUTE_S3 ?
+/* assign alu_a    =   control_unit_state == EXECUTE_S3 ?
                     alu_exec_a : program_counter;
-                    
 assign alu_b    =   control_unit_state == EXECUTE_S3 ?
                     alu_exec_b  : 
                     control_unit_state == FETCH_S1 ?
-                    `RV32I_PC_STEP  : imm;
+                    `RV32I_PC_STEP  : imm; */
+
+assign alu_a    =   alu_exec_a;
+assign alu_b    =   alu_exec_b;
     
 // Mux A/B inputs to ALU depending on OPCODE
 always_comb
