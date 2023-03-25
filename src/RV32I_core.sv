@@ -49,7 +49,6 @@ control_unit  control_unit  (
     .bus_wren   (bus_wren),
     .bus_rden   (bus_rden),
     .rf_wren    (rf_wren),
-    .program_counter_wren (program_counter_wren),
     .control_unit_state (control_unit_state)
 );
 
@@ -59,7 +58,6 @@ alu_inputs_mux alu_inputs_mux (
     .imm        (imm),
     .opcode     (opcode),
     .program_counter    (program_counter),
-    .control_unit_state (control_unit_state),
 
     .alu_a      (alu_a),
     .alu_b      (alu_b)
