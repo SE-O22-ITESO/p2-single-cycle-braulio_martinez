@@ -15,13 +15,10 @@ always_comb
     case (opcode)
         B_TYPE:
             program_counter_new <=  cond_jump ? 
-                                    program_counter_plus_imm :
+                                    alu_out :
                                     program_counter_plus_4;
 
-        J_TYPE:
-            program_counter_new <=  program_counter_plus_imm;
-
-        I_JALR_TYPE:
+        J_TYPE, I_JALR_TYPE:
             program_counter_new <=  alu_out;
 
         default:
