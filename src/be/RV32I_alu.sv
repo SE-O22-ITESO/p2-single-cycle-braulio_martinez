@@ -74,7 +74,7 @@ always_comb
 // Output muxing
 always_comb
     case (mnemonic)
-        ADD, ADDI, LB, LH, LW, LBU, LHU, SB, SH, SW, JAL, JALR, SUB, AUIPC:
+        ADD, ADDI, LB, LH, LW, LBU, LHU, SB, SH, SW, JAL, JALR, SUB, AUIPC, BEQ, BNE, BLT, BGE, BLTU, BGEU:
             out <= adder_substracter_out;
         XOR, XORI:  out <=  a ^ b;
         OR, ORI:    out <=  a | b;
@@ -86,7 +86,7 @@ always_comb
         SLTI:       out <=  (rs1_lt_imm_s && ~rs1_equal_imm) ? 'd1 : '0;
         SLTU:       out <=  (rs1_lt_rs2_u && ~rs1_equal_rs2) ? 'd1 : '0;
         SLTIU:      out <=  (rs1_lt_imm_u && ~rs1_equal_imm) ? 'd1 : '0;
-        
+
         LUI:        out <=  imm;
 
         MUL:        out <= a * b;
