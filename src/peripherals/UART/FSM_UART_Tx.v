@@ -39,7 +39,7 @@ always @(posedge rst, posedge clk)
 								tx_state <= SEND_S;
 				SEND_S:		tx_state <= START_S;
 				START_S:		tx_state <= tx_BITS_S;
-				tx_BITS_S:	if (Tx_bit_Count == 4'b1011)
+				tx_BITS_S:	if (Tx_bit_Count == 4'b1100)
 									tx_state <= STOP_S;
 								else if (end_bit_time_i)
 									tx_state <= SHIFT_S;
