@@ -18,7 +18,6 @@ RV32I_OPERAND_t ram_rddata, rom_rddata, gpio_rddata, uart_rddata;
 RV32I_OPERAND_t bus_rddata, bus_wrdata;
 RV32I_OPERAND_t program_counter;
 wire bus_wren, ram_wren, gpio_wren, uart_tx_send, uart_rx_clear, uart_busy, uart_rx_flag;
-reg [7:0] uart_tx_data;
 assign uart_rddata[31:8] = '0;
 
 parameter TOTAL_INSTRUCTIONS = 64;
@@ -27,12 +26,15 @@ initial
     $readmemb("program.txt", rom);
 assign rom_rddata = rom[rom_addr];
 
+wire core_clk;
+assign core_clk = clk;
+
 // 1-Hz clk generator
 wire clk_1_hz_en;
 counter # (
     .MAX_COUNT(25_000_000)
 ) half_second_generator (
-    .clk    (clk),
+    .clk    (core_clk),
     .rst    (rst),
     .enable (~rst),
 
@@ -40,10 +42,9 @@ counter # (
 );
 
 `FF_D_RST_EN(clk, rst, clk_1_hz_en, ~clk_1_hz, clk_1_hz)
-`FF_D_RST_EN(clk, rst, uart_tx_send, bus_wrdata[7:0], uart_tx_data)
 
 gpio    gpio (
-    .clk        (clk),
+    .clk        (core_clk),
     .rst        (rst),
     .gpio_port_in   (gpio_port_in),
     .gpio_wrdata    (bus_wrdata),
@@ -54,12 +55,12 @@ gpio    gpio (
 );
 
 UART_duplex uart (
-    .clk        (clk),
+    .clk        (core_clk),
     .n_rst      (~rst),
     .rx         (UART_rx),
     .tx         (UART_tx),
 
-    .Tx_Data    (uart_tx_data),
+    .Tx_Data    (bus_wrdata[7:0]),
 
     .tx_send    (uart_tx_send),
     .rx_flag_clr (uart_rx_clear),
@@ -69,7 +70,7 @@ UART_duplex uart (
 );
 
 memory_controller memory_controller (
-    .clk        (clk),
+    .clk        (core_clk),
     .rst        (rst),
     .bus_addr   (bus_addr),
     .bus_wrdata (bus_wrdata),
@@ -100,7 +101,7 @@ register_file #  (
     .NUM_OF_SETS    (TOTAL_RAM_ENTRIES),
     .DATA_BUS_WIDTH (`RV32I_INSTRUCTION_WIDTH)
 ) ram (
-    .clk        (clk),
+    .clk        (core_clk),
     .rst        (rst),
     .wr_enable  (ram_wren),
     .wr_addr    (ram_addr),
@@ -110,7 +111,7 @@ register_file #  (
 );
 
 RV32I_core core(
-    .clk                (clk),
+    .clk                (core_clk),
     .rst                (rst),
     .bus_rddata         (bus_rddata),
 
