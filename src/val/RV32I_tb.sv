@@ -12,7 +12,7 @@ module RV32I_tb ();
     wire [7:0] gpio_port_out;
     bit [7:0] gpio_port_in = 'd2;
 
-    bit uart_rx = '0;
+    bit uart_rx = '1;
 
     RV32I dut (
         .clk(clk),
@@ -36,14 +36,14 @@ module RV32I_tb ();
             );
         end */
 
-        #100 uart_rx = '0;
+        #10 uart_rx = '0;
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
         uart_rx = '1;
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
         uart_rx = '0;
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        uart_rx = '1;
+        uart_rx = '0;
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
         uart_rx = '0;
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
@@ -55,21 +55,21 @@ module RV32I_tb ();
         @(dut.uart.Tx_Data == '0);
         @(dut.uart.uart_busy == '0);
 
-        #100 uart_rx = '0;
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        uart_rx = '1;
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        uart_rx = '0;
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        uart_rx = '1;
+        /* #100 uart_rx = '0;
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
         uart_rx = '0;
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '0;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '0;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '0;
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        uart_rx = '1;
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
+        uart_rx = '1; */
         
         
     end
