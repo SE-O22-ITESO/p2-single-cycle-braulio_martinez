@@ -95,7 +95,6 @@ memory_controller memory_controller (
     .uart_rx_flag (uart_rx_flag)
 );
 
-
 parameter TOTAL_RAM_ENTRIES = 64;
 register_file #  (
     .NUM_OF_SETS    (TOTAL_RAM_ENTRIES),
