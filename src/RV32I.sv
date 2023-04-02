@@ -29,7 +29,7 @@ assign rom_rddata = rom[rom_addr];
 wire core_clk;
 assign core_clk = clk;
 
-// 1-Hz clk generator
+/* // 1-Hz clk generator
 wire clk_1_hz_en;
 counter # (
     .MAX_COUNT(25_000_000)
@@ -41,7 +41,8 @@ counter # (
     .max_cnt_hit    (clk_1_hz_en)
 );
 
-`FF_D_RST_EN(clk, rst, clk_1_hz_en, ~clk_1_hz, clk_1_hz)
+`FF_D_RST_EN(clk, rst, clk_1_hz_en, ~clk_1_hz, clk_1_hz) */
+assign clk_1_hz = '0;
 
 gpio    gpio (
     .clk        (core_clk),

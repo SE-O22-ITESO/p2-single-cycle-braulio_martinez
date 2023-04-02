@@ -2,10 +2,10 @@ module RV32I_register_file #(parameter NUM_OF_SETS = 32, parameter DATA_BUS_WIDT
 	//Inputs
 	input wire clk, rst,
 	input wire wr_enable,
-	input wire [$clog2(NUM_OF_SETS)-1:0] rd_addr_1, rd_addr_2, rd_addr_3, wr_addr,
+	input wire [$clog2(NUM_OF_SETS)-1:0] rd_addr_1, rd_addr_2, wr_addr,
 	input wire [DATA_BUS_WIDTH-1:0] wr_data,
 	//Outputs
-	output wire [DATA_BUS_WIDTH-1:0] rd_data_1, rd_data_2, rd_data_3
+	output wire [DATA_BUS_WIDTH-1:0] rd_data_1, rd_data_2
 );
 
 	//Declaring the Registers array
@@ -16,8 +16,6 @@ module RV32I_register_file #(parameter NUM_OF_SETS = 32, parameter DATA_BUS_WIDT
 						'0 : registers[rd_addr_1];
 	assign rd_data_2 = 	rd_addr_2 == '0 ?
 						'0 : registers[rd_addr_2];
-	assign rd_data_3 = 	rd_addr_3 == '0 ?
-						'0 : registers[rd_addr_3];
 
 	//Write is synced, ignore address '0
 	generate

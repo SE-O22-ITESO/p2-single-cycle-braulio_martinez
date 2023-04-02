@@ -2,7 +2,7 @@
 import fe_pkg::*;
 
 module rf_inputs_mux (
-    input RV32I_OPERAND_t alu_out, program_counter_plus_4, program_counter_plus_imm,
+    input RV32I_OPERAND_t alu_out, program_counter_plus_4,
     input RV32I_OPCODE_t opcode,
     input RV32I_INSTRUCTION_MNEMONIC_t mnemonic,
     input RV32I_OPERAND_t bus_rddata,

@@ -28,10 +28,7 @@ always_comb
     endcase
 
 // Program counter adder
-assign program_counter_plus_4 = rst ? program_counter  : 
-                                (mnemonic != NULL)      ?
-                                (program_counter + 'h4) : 
-                                program_counter;
+assign program_counter_plus_4 = program_counter + 'h4;
 
 RV32I_decoder decoder (
     .raw_bits   (rom_rddata),
@@ -109,7 +106,6 @@ RV32I_register_file #  (
     .wr_data    (rf_write_data),
     .rd_addr_1  (rs1_addr),
     .rd_addr_2  (rs2_addr),
-    .rd_addr_3  (rd_addr),
     .rd_data_1  (rs1),
     .rd_data_2  (rs2)
 );
