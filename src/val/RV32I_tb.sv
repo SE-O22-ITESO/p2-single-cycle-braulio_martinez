@@ -41,7 +41,7 @@ module RV32I_tb ();
         uart_rx = '1;
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        uart_rx = '0;
+        uart_rx = '1;
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
         uart_rx = '0;
         @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
@@ -54,26 +54,14 @@ module RV32I_tb ();
 
         @(dut.uart.Tx_Data == '0);
         @(dut.uart.uart_busy == '0);
-
-        /* #100 uart_rx = '0;
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        uart_rx = '0;
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        uart_rx = '0;
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        uart_rx = '0;
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        uart_rx = '0;
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        @(dut.uart.Rx_state_out == DATA_BITS); @(dut.uart.Rx_state_out);
-        uart_rx = '1; */
-        
         
     end
     always @(clk)
         force dut.clk_1_hz = clk;
+
+    always @(posedge clk) begin
+        if (dut.core.program_counter == 'h400_004)
+            $display("Iteration: %d, Time: %t", dut.core.register_file.registers[27], $realtime);
+    end
 
 endmodule : RV32I_tb
