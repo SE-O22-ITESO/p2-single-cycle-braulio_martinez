@@ -19,7 +19,7 @@ module counter
 
     assign max_cnt_hit = ((cnt == (MAX_COUNT - 1'b1)) & enable);
     
-    always @(posedge clk, posedge rst) begin
+    always_ff @(posedge clk, posedge rst) begin
         if (rst) begin
             cnt <= 'h0;
         end else begin

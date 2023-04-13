@@ -14,23 +14,23 @@ module rf_inputs_mux (
 always_comb
     case (opcode)
         R_TYPE, I_TYPE, U_LUI_TYPE, U_AUI_TYPE: 
-            rf_write_data   <= alu_out;
+            rf_write_data   = alu_out;
 
         I_LOAD_TYPE:
             case (mnemonic)
-                LB  : rf_write_data <= { {24{bus_rddata[7]}}, bus_rddata[7:0]};
-                LH  : rf_write_data <= { {16{bus_rddata[15]}}, bus_rddata[15:0]};
-                LW  : rf_write_data <= bus_rddata;
-                LBU : rf_write_data <= { {24{1'b0}}, bus_rddata[7:0]};
-                LHU : rf_write_data <= { {16{1'b0}}, bus_rddata[15:0]};
-                default : rf_write_data <= '0;
+                LB  : rf_write_data = { {24{bus_rddata[7]}}, bus_rddata[7:0]};
+                LH  : rf_write_data = { {16{bus_rddata[15]}}, bus_rddata[15:0]};
+                LW  : rf_write_data = bus_rddata;
+                LBU : rf_write_data = { {24{1'b0}}, bus_rddata[7:0]};
+                LHU : rf_write_data = { {16{1'b0}}, bus_rddata[15:0]};
+                default : rf_write_data = '0;
             endcase
 
         I_JALR_TYPE, J_TYPE:
-            rf_write_data   <= program_counter_plus_4;
+            rf_write_data   = program_counter_plus_4;
 
         default:
-            rf_write_data   <= '0;
+            rf_write_data   = '0;
     endcase
 
 endmodule

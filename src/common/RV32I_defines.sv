@@ -11,7 +11,7 @@
 `define RV32I_PC_STEP             32'd4
 
 `define FF_D_RST_EN(clk, rst, en, d, q)\
-    always @(posedge clk, posedge rst) begin \
+    always_ff @(posedge clk, posedge rst) begin \
         if (rst) \
             q <= '0;\
         else if (en)\
@@ -19,7 +19,7 @@
 		end
 
 `define FF_D_RST(clk, rst, d, q)\
-    always @(posedge clk, posedge rst) begin \
+    always_ff @(posedge clk, posedge rst) begin \
             if (rst) \
                 q <= '0;\
             else\
@@ -27,7 +27,7 @@
 		end
 
 `define FF_D_RST_RESET_VALUE(clk, rst, d, q, reset_value)\
-    always @(posedge clk, posedge rst) begin \
+    always_ff @(posedge clk, posedge rst) begin \
         if (rst) \
             q <= reset_value;\
         else\
@@ -35,7 +35,7 @@
 		end
 
 `define FF_D_RST_EN_RESET_VALUE(clk, rst, en, d, q, reset_value)\
-    always @(posedge clk, posedge rst) begin \
+    always_ff @(posedge clk, posedge rst) begin \
         if (rst) \
             q <= reset_value;\
         else if (en)\
@@ -43,7 +43,7 @@
 		end
 
 `define FF_D_RST_EN_DATA_TYPE(clk, rst, en, d, q, data_type)\
-    always @(posedge clk, posedge rst) begin \
+    always_ff @(posedge clk, posedge rst) begin \
         if (rst) \
             q <= data_type'(0);\
         else if (en)\
@@ -51,7 +51,7 @@
 		end
 
 `define FF_D_RST_DATA_TYPE(clk, rst, d, q, data_type)\
-    always @(posedge clk, posedge rst) begin \
+    always_ff @(posedge clk, posedge rst) begin \
         if (rst) \
             q <= data_type'(0);\
         else\

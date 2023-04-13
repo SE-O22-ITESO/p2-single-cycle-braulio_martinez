@@ -61,6 +61,6 @@ assign gpio_wren    =   (mem_source == GPIO_OUT)    ?
 assign uart_tx_send =   (mem_source == UART_TX) && bus_wren;
 
 always @(posedge clk)
-    uart_rx_clear <= (mem_source == UART_RX) && uart_rx_flag;
+    uart_rx_clear = (mem_source == UART_RX) && uart_rx_flag;
 
 endmodule

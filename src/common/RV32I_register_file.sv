@@ -22,11 +22,11 @@ module RV32I_register_file #(parameter NUM_OF_SETS = 32, parameter DATA_BUS_WIDT
 	always @(posedge clk, posedge rst) begin
 		if (rst) begin
 			for (int i=0; i<NUM_OF_SETS; i=i+1) begin : quartus_generate_fix
-				registers[i] <= '0;
+				registers[i] = '0;
 			end
 		end else begin
 			if (wr_enable)
-				registers[wr_addr] <= wr_data;
+				registers[wr_addr] = wr_data;
 		end
 	end
 	endgenerate

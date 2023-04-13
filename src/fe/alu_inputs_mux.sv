@@ -29,33 +29,33 @@ always_comb
     case (opcode)
 
         R_TYPE: begin
-            alu_exec_a <= rs1;
-            alu_exec_b <= rs2;
+            alu_exec_a = rs1;
+            alu_exec_b = rs2;
         end
 
         I_TYPE, I_LOAD_TYPE, I_JALR_TYPE, S_TYPE: begin
-            alu_exec_a <= rs1;
-            alu_exec_b <= imm;
+            alu_exec_a = rs1;
+            alu_exec_b = imm;
         end
 
         J_TYPE, B_TYPE: begin
-            alu_exec_a <= program_counter;
-            alu_exec_b <= imm;
+            alu_exec_a = program_counter;
+            alu_exec_b = imm;
         end
 
         U_LUI_TYPE: begin
-            alu_exec_a <= imm;
-            alu_exec_b <= 'd12;
+            alu_exec_a = imm;
+            alu_exec_b = 'd12;
         end
 
         U_AUI_TYPE: begin
-            alu_exec_a <= imm;
-            alu_exec_b <= program_counter;
+            alu_exec_a = imm;
+            alu_exec_b = program_counter;
         end
 
         default: begin
-            alu_exec_a <= '0;
-            alu_exec_b <= '0;
+            alu_exec_a = '0;
+            alu_exec_b = '0;
         end
     endcase
 

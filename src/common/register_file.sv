@@ -15,7 +15,7 @@ module register_file #(parameter NUM_OF_SETS = 32, parameter DATA_BUS_WIDTH = 32
 	assign rd_data	 = 	registers[rd_addr];
 
 	//Write is synced
-	always @(posedge clk)
+	always_ff @(posedge clk)
 		if (wr_enable)
 			registers[wr_addr] <= wr_data;
 

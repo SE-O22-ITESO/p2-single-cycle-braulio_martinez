@@ -65,43 +65,43 @@ assign shifter_operand = a;
 always_comb
     case (mnemonic)
 
-        SLLI, SRLI, SRAI:   shifter_num_of_shifts <= {{27{1'b0}}, b[4:0]};
-        AUIPC, LUI:         shifter_num_of_shifts <= 'd12;
+        SLLI, SRLI, SRAI:   shifter_num_of_shifts = {{27{1'b0}}, b[4:0]};
+        AUIPC, LUI:         shifter_num_of_shifts = 'd12;
 
-        default: shifter_num_of_shifts <= b;
+        default: shifter_num_of_shifts = b;
     endcase
 
 // Output muxing
 always_comb
     case (mnemonic)
         ADD, ADDI, LB, LH, LW, LBU, LHU, SB, SH, SW, JAL, JALR, SUB, AUIPC, BEQ, BNE, BLT, BGE, BLTU, BGEU:
-            out <= adder_substracter_out;
-        XOR, XORI:  out <=  a ^ b;
-        OR, ORI:    out <=  a | b;
-        AND, ANDI:  out <=  a & b;
-        SLL, SLLI:  out <=  sll;
-        SRL, SRLI:  out <=  srl;
-        SRA, SRAI:  out <=  sra;
-        SLT:        out <=  (rs1_lt_rs2_s && ~rs1_equal_rs2) ? 'd1 : '0;
-        SLTI:       out <=  (rs1_lt_imm_s && ~rs1_equal_imm) ? 'd1 : '0;
-        SLTU:       out <=  (rs1_lt_rs2_u && ~rs1_equal_rs2) ? 'd1 : '0;
-        SLTIU:      out <=  (rs1_lt_imm_u && ~rs1_equal_imm) ? 'd1 : '0;
+            out = adder_substracter_out;
+        XOR, XORI:  out =  a ^ b;
+        OR, ORI:    out =  a | b;
+        AND, ANDI:  out =  a & b;
+        SLL, SLLI:  out =  sll;
+        SRL, SRLI:  out =  srl;
+        SRA, SRAI:  out =  sra;
+        SLT:        out =  (rs1_lt_rs2_s && ~rs1_equal_rs2) ? 'd1 : '0;
+        SLTI:       out =  (rs1_lt_imm_s && ~rs1_equal_imm) ? 'd1 : '0;
+        SLTU:       out =  (rs1_lt_rs2_u && ~rs1_equal_rs2) ? 'd1 : '0;
+        SLTIU:      out =  (rs1_lt_imm_u && ~rs1_equal_imm) ? 'd1 : '0;
 
-        LUI:        out <=  imm;
+        LUI:        out =  imm;
 
-        MUL:        out <= a * b;
-        default:    out <= '0;
+        MUL:        out = a * b;
+        default:    out = '0;
     endcase
 
 always_comb
     case (mnemonic)
-        BEQ:        cond_jump <=  rs1_equal_rs2;
-        BNE:        cond_jump <=  ~rs1_equal_rs2;
-        BLT:        cond_jump <=  ~rs1_equal_rs2 & rs1_lt_rs2_s;
-        BGE:        cond_jump <=  rs1_equal_rs2 | rs1_gt_rs2_s;
-        BLTU:       cond_jump <=  ~rs1_equal_rs2 & rs1_lt_rs2_u;
-        BGEU:       cond_jump <=  ~rs1_equal_rs2 & rs1_gt_rs2_u;
-        default:    cond_jump <=  '0;
+        BEQ:        cond_jump =  rs1_equal_rs2;
+        BNE:        cond_jump =  ~rs1_equal_rs2;
+        BLT:        cond_jump =  ~rs1_equal_rs2 & rs1_lt_rs2_s;
+        BGE:        cond_jump =  rs1_equal_rs2 | rs1_gt_rs2_s;
+        BLTU:       cond_jump =  ~rs1_equal_rs2 & rs1_lt_rs2_u;
+        BGEU:       cond_jump =  ~rs1_equal_rs2 & rs1_gt_rs2_u;
+        default:    cond_jump =  '0;
     endcase
 
 endmodule : RV32I_alu

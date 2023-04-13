@@ -21,10 +21,10 @@ assign bus_addr = alu_out;
 // bus_wrdata selection
 always_comb
     case (mnemonic)
-        SB  : bus_wrdata <= { {24{rs2[7]}}, rs2[7:0]};
-        SH  : bus_wrdata <= { {16{rs2[15]}}, rs2[15:0]};
-        SW  : bus_wrdata <= rs2;
-        default : bus_wrdata <= '0;
+        SB  : bus_wrdata = { {24{rs2[7]}}, rs2[7:0]};
+        SH  : bus_wrdata = { {16{rs2[15]}}, rs2[15:0]};
+        SW  : bus_wrdata = rs2;
+        default : bus_wrdata = '0;
     endcase
 
 // Program counter adder

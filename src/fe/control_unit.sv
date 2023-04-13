@@ -21,10 +21,10 @@ assign bus_rden                         =   (opcode == I_LOAD_TYPE);
 always_comb
     case (opcode)
         R_TYPE, I_TYPE, I_LOAD_TYPE, U_LUI_TYPE, I_JALR_TYPE, U_AUI_TYPE, J_TYPE:
-            rf_wren         <= ~rst;
+            rf_wren         = ~rst;
 
         default:
-            rf_wren         <= '0;
+            rf_wren         = '0;
     endcase
 
 endmodule : control_unit

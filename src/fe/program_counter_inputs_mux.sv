@@ -13,15 +13,15 @@ module program_counter_inputs_mux (
 always_comb
     case (opcode)
         B_TYPE:
-            program_counter_new <=  cond_jump ? 
+            program_counter_new =  cond_jump ? 
                                     alu_out :
                                     program_counter_plus_4;
 
         J_TYPE, I_JALR_TYPE:
-            program_counter_new <=  alu_out;
+            program_counter_new =  alu_out;
 
         default:
-            program_counter_new <=  program_counter_plus_4;
+            program_counter_new =  program_counter_plus_4;
     endcase
 
 endmodule
